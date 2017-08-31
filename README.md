@@ -12,7 +12,7 @@ They require [KeePassHttp](https://github.com/pfn/keepasshttp/), a KeePass plugi
 
 ## PassIFox (for Mozilla Firefox)
 
-- [Download](https://addons.mozilla.org/en-US/firefox/addon/passifox/)
+- [Download](https://github.com/smorks/passifox/releases)
 - [Documentation](https://github.com/pfn/passifox/blob/master/documentation/PassIFox.md)
 
 Currently, the documentation of PassIFox is not up-to-date!
@@ -20,7 +20,7 @@ Support is always welcome.
 
 ## Troubleshooting
 
-If you [open an issue](https://github.com/pfn/passifox/issues/), always give us the following information:
+If you [open an issue](https://github.com/smorks/passifox/issues/), always give us the following information:
 
 1. the extension are you using (chromeIPass or PassIFox) and its version
 2. version of your browser
