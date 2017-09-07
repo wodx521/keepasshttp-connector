@@ -89,9 +89,18 @@ browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
  * (Intercepting HTTP auth currently unsupported in Firefox.)
  */
 if (browser.webRequest.onAuthRequired) {
-	browser.webRequest.onAuthRequired.addListener(httpAuth.handleRequest,
-													{ urls: ["<all_urls>"] }, ["blocking"]
-													);
+	var handleReq = httpAuth.handleRequestPromise;
+	var reqType = 'blocking';
+	var opts = { urls: ['<all_urls>'] };
+
+	if (/Chrome/.test(navigator.userAgent) && /Google/.test(navigator.vendor)) {
+		handleReq = httpAuth.handleRequestCallback;
+		reqType = 'asyncBlocking';
+	}
+
+	browser.webRequest.onAuthRequired.addListener(handleReq, opts, [reqType]);
+	browser.webRequest.onCompleted.addListener(httpAuth.requestCompleted, opts);
+	browser.webRequest.onErrorOccurred.addListener(httpAuth.requestCompleted, opts);
 }
 
 /**

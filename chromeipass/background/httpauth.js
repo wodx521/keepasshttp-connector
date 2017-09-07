@@ -1,67 +1,62 @@
 var httpAuth = httpAuth || {};
 
-httpAuth.requestId = "";
-httpAuth.tabId = 0;
-httpAuth.url = null;
-httpAuth.isProxy = false;
-httpAuth.proxyUrl = null;
-httpAuth.resolve = null;
-httpAuth.reject = null;
+httpAuth.requests = [];
 
+httpAuth.requestCompleted = function (details) {
+	var index = httpAuth.requests.indexOf(details.requestId);
+	if (index > -1) {
+		httpAuth.requests.splice(index, 1);
+	}
+}
 
-httpAuth.handleRequest = function (details) {
+httpAuth.handleRequestPromise = function (details) {
 	return new Promise((resolve, reject) => {
-		if(httpAuth.requestId == details.requestId || !page.tabs[details.tabId]) {
-			reject({});
-		}
-		else {
-			httpAuth.requestId = details.requestId;
-			httpAuth.resolve = resolve;
-			httpAuth.reject = reject;
-			httpAuth.processPendingCallbacks(details);
-		}
+		httpAuth.processPendingCallbacks(details, resolve, reject);
 	});
 }
 
-httpAuth.processPendingCallbacks = function(details) {
-	httpAuth.tabId = details.tabId;
-	httpAuth.url = details.url;
-	httpAuth.isProxy = details.isProxy;
-
-	if(details.challenger){
-		httpAuth.proxyUrl = details.challenger.host;
-	}
-
-	// WORKAROUND: second parameter should be tab, but is an own object with tab-id
-	// but in background.js only tab.id is used. To get tabs we could use
-	// chrome.tabs.get(tabId, callback) <-- but what should callback be?
-
-	var url = (httpAuth.isProxy && httpAuth.proxyUrl) ? httpAuth.proxyUrl : httpAuth.url;
-
-	keepass.retrieveCredentials(httpAuth.loginOrShowCredentials, { "id" : details.tabId }, url, url, true);
+httpAuth.handleRequestCallback = function (details, callback) {
+	httpAuth.processPendingCallbacks(details, callback, callback);
 }
 
-httpAuth.loginOrShowCredentials = function(logins) {
+httpAuth.processPendingCallbacks = function (details, resolve, reject) {
+
+	if (httpAuth.requests.indexOf(details.requestId) >= 0 || !page.tabs[details.tabId]) {
+		reject({});
+	}
+
+	httpAuth.requests.push(details.requestId);
+
+	if (details.challenger) {
+		details.proxyUrl = details.challenger.host;
+	}
+
+	details.searchUrl = (details.isProxy && details.proxyUrl) ? details.proxyUrl : details.url;
+
+	keepass.retrieveCredentials((logins) => {
+		httpAuth.loginOrShowCredentials(logins, details, resolve, reject);
+	}, { "id": details.tabId }, details.searchUrl, details.searchUrl, true);
+}
+
+httpAuth.loginOrShowCredentials = function (logins, details, resolve, reject) {
 	// at least one login found --> use first to login
 	if (logins.length > 0) {
-		var url = (httpAuth.isProxy && httpAuth.proxyUrl) ? httpAuth.proxyUrl : httpAuth.url;
-		event.onHTTPAuthPopup(null, {"id": httpAuth.tabId}, {"logins": logins, "url": url});
+		event.onHTTPAuthPopup(null, { "id": details.tabId }, { "logins": logins, "url": details.searchUrl });
 		//generate popup-list for HTTP Auth usernames + descriptions
 
-		if(page.settings.autoFillAndSend) {
-			httpAuth.resolve({
+		if (page.settings.autoFillAndSend) {
+			resolve({
 				authCredentials: {
 					username: logins[0].Login,
 					password: logins[0].Password
 				}
 			});
-		}
-		else {
-			httpAuth.reject({});
+		} else {
+			reject({});
 		}
 	}
 	// no logins found
 	else {
-		httpAuth.reject({});
+		reject({});
 	}
 }
