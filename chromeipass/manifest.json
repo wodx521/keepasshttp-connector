@@ -8,13 +8,11 @@
 		"48": "icons/keepass_48x48.png",
 		"128": "icons/keepass_128x128.png"
 	},
-
 	"applications": {
 		"gecko": {
 			"id": "chromeipass@addons.brandt.tech"
 		}
 	},
-
 	"browser_action": {
 		"default_icon": {
 			"19": "icons/19x19/icon_normal_blue_19x19.png",
@@ -23,8 +21,10 @@
 		"default_title": "chromeIPass",
 		"default_popup": "popups/popup.html"
 	},
-
-	"options_page": "options/options.html",
+	"options_ui": {
+		"page": "options/options.html",
+		"open_in_tab": true
+	},
 	"background": {
 		"scripts": [
 			"browser-polyfill.min.js",
@@ -37,11 +37,14 @@
 			"background/page.js",
 			"background/event.js",
 			"background/init.js"
-			]
-		},
+		]
+	},
 	"content_scripts": [
 		{
-			"matches": ["http://*/*", "https://*/*"],
+			"matches": [
+				"http://*/*",
+				"https://*/*"
+			],
 			"js": [
 				"browser-polyfill.min.js",
 				"jquery-1.11.1.min.js",
