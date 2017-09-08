@@ -34,50 +34,52 @@ keepass.updateCredentials = function(callback, tab, entryId, username, password,
 	page.tabs[tab.id].errorMessage = null;
 
 	// is browser associated to keepass?
-	if(!keepass.testAssociation(tab)) {
-		browserAction.showDefault(null, tab);
-		callback("error");
-		return;
-	}
-
-	// build request
-	var request = {
-		RequestType: "set-login"
-	};
-	var verifier = keepass.setVerifier(request);
-	var id = verifier[0];
-	var key = verifier[1];
-	var iv = request.Nonce;
-
-
-	request.Login = keepass.encrypt(cryptoHelpers.encode_utf8(username), key, iv);
-
-	request.Password = keepass.encrypt(cryptoHelpers.encode_utf8(password), key, iv);
-	request.Url = keepass.encrypt(url, key, iv);
-	request.SubmitUrl = keepass.encrypt(url, key, iv);
-
-	if(entryId) {
-		request.Uuid = keepass.encrypt(entryId, key, iv);
-	}
-
-	// send request
-	var result = keepass.send(request);
-	var status = result[0];
-	var response = result[1];
-
-	// verify response
-	var code = "error";
-	if(keepass.checkStatus(status, tab)) {
-		var r = JSON.parse(response);
-		if (keepass.verifyResponse(r, key, id)) {
-			code = "success";
+	keepass.testAssociation(tab).then((configured) => {
+		if(!configured) {
+			browserAction.showDefault(null, tab);
+			callback("error");
+			return;
 		}
-		else {
-			code = "error";
-		}
-	}
 
-	callback(code);
+		// build request
+		var request = {
+			RequestType: "set-login"
+		};
+		var verifier = keepass.setVerifier(request);
+		var id = verifier[0];
+		var key = verifier[1];
+		var iv = request.Nonce;
+
+		request.Login = keepass.encrypt(cryptoHelpers.encode_utf8(username), key, iv);
+
+		request.Password = keepass.encrypt(cryptoHelpers.encode_utf8(password), key, iv);
+		request.Url = keepass.encrypt(url, key, iv);
+		request.SubmitUrl = keepass.encrypt(url, key, iv);
+
+		if(entryId) {
+			request.Uuid = keepass.encrypt(entryId, key, iv);
+		}
+
+		// send request
+		keepass.sendAsync(request).then((result) => {
+			var status = result[0];
+			var response = result[1];
+
+			// verify response
+			var code = "error";
+			if(keepass.checkStatus(status, tab)) {
+				var r = JSON.parse(response);
+				if (keepass.verifyResponse(r, key, id)) {
+					code = "success";
+				}
+				else {
+					code = "error";
+				}
+			}
+
+			callback(code);
+		});
+	});
 }
 
 keepass.retrieveCredentials = function (callback, tab, url, submiturl, forceCallback, triggerUnlock) {
@@ -87,125 +89,130 @@ keepass.retrieveCredentials = function (callback, tab, url, submiturl, forceCall
 	page.tabs[tab.id].errorMessage = null;
 
 	// is browser associated to keepass?
-	if(!keepass.testAssociation(tab, triggerUnlock)) {
-		browserAction.showDefault(null, tab);
-		if(forceCallback) {
-			callback([]);
-		}
-		return;
-	}
-
-	// build request
-	var request = {
-		"RequestType": "get-logins",
-		"SortSelection": "true",
-		"TriggerUnlock": (triggerUnlock === true) ? "true" : "false"
-	};
-	var verifier = keepass.setVerifier(request);
-	var id = verifier[0];
-	var key = verifier[1];
-	var iv = request.Nonce;
-	request.Url = keepass.encrypt(url, key, iv);
-
-	if(submiturl) {
-		request.SubmitUrl = keepass.encrypt(submiturl, key, iv);
-	}
-
-	// send request
-	var result = keepass.send(request);
-	var status = result[0];
-	var response = result[1];
-	var entries = [];
-
-	// verify response
-	if(keepass.checkStatus(status, tab)) {
-		var r = JSON.parse(response);
-
-		keepass.setCurrentKeePassHttpVersion(r.Version);
-
-		if (keepass.verifyResponse(r, key, id)) {
-			var rIv = r.Nonce;
-			for (var i = 0; i < r.Entries.length; i++) {
-				keepass.decryptEntry(r.Entries[i], key, rIv);
+	keepass.testAssociation(tab, triggerUnlock).then((configured) => {
+		if(!configured) {
+			browserAction.showDefault(null, tab);
+			if(forceCallback) {
+				callback([]);
 			}
-			entries = r.Entries;
-			keepass.updateLastUsed(keepass.databaseHash);
-			if(entries.length == 0) {
-				//questionmark-icon is not triggered, so we have to trigger for the normal symbol
+			return;
+		}
+
+		// build request
+		var request = {
+			"RequestType": "get-logins",
+			"SortSelection": "true",
+			"TriggerUnlock": (triggerUnlock === true) ? "true" : "false"
+		};
+		var verifier = keepass.setVerifier(request);
+		var id = verifier[0];
+		var key = verifier[1];
+		var iv = request.Nonce;
+		request.Url = keepass.encrypt(url, key, iv);
+
+		if(submiturl) {
+			request.SubmitUrl = keepass.encrypt(submiturl, key, iv);
+		}
+
+		// send request
+		keepass.sendAsync(request).then((result) => {
+			var status = result[0];
+			var response = result[1];
+			var entries = [];
+
+			// verify response
+			if(keepass.checkStatus(status, tab)) {
+				var r = JSON.parse(response);
+
+				keepass.setCurrentKeePassHttpVersion(r.Version);
+
+				if (keepass.verifyResponse(r, key, id)) {
+					var rIv = r.Nonce;
+					for (var i = 0; i < r.Entries.length; i++) {
+						keepass.decryptEntry(r.Entries[i], key, rIv);
+					}
+					entries = r.Entries;
+					keepass.updateLastUsed(keepass.databaseHash);
+					if(entries.length == 0) {
+						//questionmark-icon is not triggered, so we have to trigger for the normal symbol
+						browserAction.showDefault(null, tab);
+					}
+				}
+				else {
+					console.log("RetrieveCredentials for " + url + " rejected");
+				}
+			}
+			else {
 				browserAction.showDefault(null, tab);
 			}
-		}
-		else {
-			console.log("RetrieveCredentials for " + url + " rejected");
-		}
-	}
-	else {
-		browserAction.showDefault(null, tab);
-	}
 
-	page.debug("keepass.retrieveCredentials() => entries.length = {1}", entries.length);
-
-	callback(entries);
+			page.debug("keepass.retrieveCredentials() => entries.length = {1}", entries.length);
+			callback(entries);
+		});
+	});
 }
 
 keepass.generatePassword = function (callback, tab, forceCallback) {
 	// is browser associated to keepass?
-	if(!keepass.testAssociation(tab)) {
-		browserAction.showDefault(null, tab);
-		if(forceCallback) {
-			callback([]);
+	keepass.testAssociation(tab).then((configured) => {
+		if(!configured) {
+			browserAction.showDefault(null, tab);
+			if(forceCallback) {
+				callback([]);
+			}
+			return;
 		}
-		return;
-	}
 
-	if(keepass.currentKeePassHttp.versionParsed < 1400) {
-		callback([]);
-		return;
-	}
+		if(keepass.currentKeePassHttp.versionParsed < 1400) {
+			callback([]);
+			return;
+		}
 
-	// build request
-	var request = {
-		RequestType: "generate-password"
-	};
-	var verifier = keepass.setVerifier(request);
-	var id = verifier[0];
-	var key = verifier[1];
+		// build request
+		var request = {
+			RequestType: "generate-password"
+		};
+		var verifier = keepass.setVerifier(request);
+		var id = verifier[0];
+		var key = verifier[1];
 
-	// send request
-	var result = keepass.send(request);
-	var status = result[0];
-	var response = result[1];
-	var passwords = [];
+		// send request
+		keepass.sendAsync(request).then((result) => {
+			var status = result[0];
+			var response = result[1];
+			var passwords = [];
 
-	// verify response
-	if(keepass.checkStatus(status, tab)) {
-		var r = JSON.parse(response);
+			// verify response
+			if(keepass.checkStatus(status, tab)) {
+				var r = JSON.parse(response);
 
-		keepass.setCurrentKeePassHttpVersion(r.Version);
+				keepass.setCurrentKeePassHttpVersion(r.Version);
 
-		if (keepass.verifyResponse(r, key, id)) {
-			var rIv = r.Nonce;
-
-			if(r.Entries) {
-				for (var i = 0; i < r.Entries.length; i++) {
-					keepass.decryptEntry(r.Entries[i], key, rIv);
+				if (keepass.verifyResponse(r, key, id)) {
+					var rIv = r.Nonce;
+	
+					if(r.Entries) {
+						for (var i = 0; i < r.Entries.length; i++) {
+							keepass.decryptEntry(r.Entries[i], key, rIv);
+						}
+						passwords = r.Entries;
+						keepass.updateLastUsed(keepass.databaseHash);
+					}
+					else {
+						console.log("No entries returned. Is KeePassHttp up-to-date?");
+					}
 				}
-				passwords = r.Entries;
-				keepass.updateLastUsed(keepass.databaseHash);
+				else {
+					console.log("GeneratePassword rejected");
+				}
 			}
 			else {
-				console.log("No entries returned. Is KeePassHttp up-to-date?");
+				browserAction.showDefault(null, tab);
 			}
-		}
-		else {
-			console.log("GeneratePassword rejected");
-		}
-	}
-	else {
-		browserAction.showDefault(null, tab);
-	}
 
-	callback(passwords);
+			callback(passwords);
+		});
+	});
 }
 
 keepass.associate = function(callback, tab) {
@@ -213,75 +220,87 @@ keepass.associate = function(callback, tab) {
 		return;
 	}
 
-	keepass.getDatabaseHash(tab);
-
-	if(keepass.isDatabaseClosed || !keepass.isKeePassHttpAvailable) {
-		return;
-	}
-
-	page.tabs[tab.id].errorMessage = null;
-
-	var rawKey = cryptoHelpers.generateSharedKey(keepass.keySize * 2);
-	var key = keepass.b64e(rawKey);
-
-	var request = {
-		RequestType: "associate",
-		Key: key
-	};
-
-	keepass.setVerifier(request, key);
-
-	var result = keepass.send(request);
-
-	if(keepass.checkStatus(result[0], tab)) {
-		var r = JSON.parse(result[1]);
-
-		if(r.Version) {
-			keepass.currentKeePassHttp = {
-				"version": r.Version,
-				"versionParsed": parseInt(r.Version.replace(/\./g,""))
-			};
+	keepass.getDatabaseHash(tab).then(() => {
+		if(keepass.isDatabaseClosed || !keepass.isKeePassHttpAvailable) {
+			return;
 		}
 
-		var id = r.Id;
-		if(!keepass.verifyResponse(r, key)) {
-			page.tabs[tab.id].errorMessage = "KeePass association failed, try again.";
-		}
-		else {
-			keepass.setCryptoKey(id, key);
-			keepass.associated.value = true;
-			keepass.associated.hash = r.Hash || 0;
-		}
+		page.tabs[tab.id].errorMessage = null;
 
-		browserAction.show(callback, tab);
-	}
+		var rawKey = cryptoHelpers.generateSharedKey(keepass.keySize * 2);
+		var key = keepass.b64e(rawKey);
+
+		var request = {
+			RequestType: "associate",
+			Key: key
+		};
+
+		keepass.setVerifier(request, key);
+
+		keepass.sendAsync(request).then((result) => {
+			if(keepass.checkStatus(result[0], tab)) {
+				var r = JSON.parse(result[1]);
+
+				if(r.Version) {
+					keepass.currentKeePassHttp = {
+						"version": r.Version,
+						"versionParsed": parseInt(r.Version.replace(/\./g,""))
+					};
+				}
+
+				var id = r.Id;
+				if(!keepass.verifyResponse(r, key)) {
+					page.tabs[tab.id].errorMessage = "KeePass association failed, try again.";
+				}
+				else {
+					keepass.setCryptoKey(id, key);
+					keepass.associated.value = true;
+					keepass.associated.hash = r.Hash || 0;
+				}
+
+				browserAction.show(callback, tab);
+			}
+		});
+	});
 }
 
 keepass.isConfigured = function() {
-	if(typeof(keepass.databaseHash) == "undefined") {
-		keepass.getDatabaseHash();
-	}
-	return (keepass.databaseHash in keepass.keyRing);
+	return new Promise((resolve, reject) => {
+		if(typeof(keepass.databaseHash) == "undefined") {
+			keepass.getDatabaseHash().then((hash) => {
+				resolve(hash in keepass.keyRing);
+			});
+		} else {
+			resolve(keepass.databaseHash in keepass.keyRing);
+		}
+	});
 }
 
 keepass.isAssociated = function() {
 	return (keepass.associated.value && keepass.associated.hash && keepass.associated.hash == keepass.databaseHash);
 }
 
-keepass.send = function(request) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", keepass.getPluginUrl(), false);
-	xhr.setRequestHeader("Content-Type", "application/json");
-	try {
-		var r = JSON.stringify(request);
-		page.debug("Request: {1}", r);
-		xhr.send(r);
-	}
-	catch (e) {
-		console.log("KeePassHttp: " + e);
-	}
-	page.debug("Response: {1} => {2}", xhr.status, xhr.responseText);
-	return [xhr.status, xhr.responseText];
+keepass.sendAsync = function(request) {
+	return new Promise((resolve, reject) => {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", keepass.getPluginUrl(), true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onload = () => {
+			page.debug("Response: {1} => {2}", xhr.status, xhr.responseText);
+			resolve([xhr.status, xhr.responseText]);
+		};
+		xhr.onerror = (err) => {
+			reject(err);
+		};
+		try {
+			var r = JSON.stringify(request);
+			page.debug("Request: {1}", r);
+			xhr.send(r);
+		}
+		catch (e) {
+			console.log("KeePassHttp: " + e);
+		}
+	});
 }
 
 keepass.checkStatus = function (status, tab) {
@@ -333,13 +352,20 @@ keepass.migrateKeyRing = () => {
 			}
 			if (keepass.keyId in localStorage && keepass.keyBody in localStorage) {
 				if (!keyring) {
-					var hash = keepass.getDatabaseHash(null);
-					keepass.saveKey(hash, localStorage[keepass.keyId], localStorage[keepass.keyBody]);
+					var keyId = localStorage[keepass.keyId];
+					var keyBody = localStorage[keepass.keyBody];
+					keepass.getDatabaseHash(null).then((hash) => {
+						keepass.saveKey(hash, keyId, keyBody);
+						resolve();
+					});
+				} else {
+					resolve();
 				}
 				delete localStorage[keepass.keyId];
 				delete localStorage[keepass.keyBody];
+			} else {
+				resolve();
 			}
-			resolve();
 		});
 	});
 };
@@ -407,10 +433,9 @@ keepass.keePassHttpUpdateAvailable = function() {
 
 keepass.checkForNewKeePassHttpVersion = function() {
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET", keepass.latestVersionUrl, false);
+	xhr.open("GET", keepass.latestVersionUrl, true);
 	xhr.setRequestHeader("Content-Type", "application/json");
-	try {
-		xhr.send();
+	xhr.onload = () => {
 		var $version = xhr.responseText;
 		if($version.substring(0, 1) == ":") {
 			$version = $version.substring(xhr.responseText.indexOf("KeePassHttp") + 12);
@@ -421,100 +446,116 @@ keepass.checkForNewKeePassHttpVersion = function() {
 		else {
 			$version = -1;
 		}
+		if($version != -1) {
+			browser.storage.local.set({'latestKeePassHttp': keepass.latestKeePassHttp});
+		}
+		keepass.latestKeePassHttp.lastChecked = new Date();
+	};
+	xhr.onerror = (err) => {
+		console.log('Error: ' + err);
+	};
+	try {
+		xhr.send();
 	}
 	catch (e) {
 		console.log("Error: " + e);
 	}
-
-	if($version != -1) {
-		browser.storage.local.set({'latestKeePassHttp': keepass.latestKeePassHttp});
-	}
-	keepass.latestKeePassHttp.lastChecked = new Date();
 }
 
 keepass.testAssociation = function (tab, triggerUnlock) {
-	keepass.getDatabaseHash(tab, triggerUnlock);
+	return new Promise((resolve, reject) => {
+		keepass.getDatabaseHash(tab, triggerUnlock).then(() => {
+			if(keepass.isDatabaseClosed || !keepass.isKeePassHttpAvailable) {
+				resolve(false);
+				return;
+			}
 
-	if(keepass.isDatabaseClosed || !keepass.isKeePassHttpAvailable) {
-		return false;
-	}
+			if(keepass.isAssociated()) {
+				resolve(true);
+				return;
+			}
 
-	if(keepass.isAssociated()) {
-		return true;
-	}
-
-	var request = {
-		"RequestType": "test-associate",
-		"TriggerUnlock": (triggerUnlock === true) ? "true" : false
-	};
-	var verifier = keepass.setVerifier(request);
-
-	if(!verifier) {
-		keepass.associated.value = false;
-		keepass.associated.hash = null;
-		return false;
-	}
-
-	var result = keepass.send(request);
-	var status = result[0];
-	var response = result[1];
-
-	if(keepass.checkStatus(status, tab)) {
-		var r = JSON.parse(response);
-		var id = verifier[0];
-		var key = verifier[1];
-
-		if(r.Version) {
-			keepass.currentKeePassHttp = {
-				"version": r.Version,
-				"versionParsed": parseInt(r.Version.replace(/\./g,""))
+			var request = {
+				"RequestType": "test-associate",
+				"TriggerUnlock": (triggerUnlock === true) ? "true" : false
 			};
-		}
+			var verifier = keepass.setVerifier(request);
 
-	keepass.isEncryptionKeyUnrecognized = false;
-		if(!keepass.verifyResponse(r, key, id)) {
-			var hash = r.Hash || 0;
-			keepass.deleteKey(hash);
-			keepass.isEncryptionKeyUnrecognized = true;
-			console.log("Encryption key is not recognized!");
-			page.tabs[tab.id].errorMessage = "Encryption key is not recognized.";
-			keepass.associated.value = false;
-			keepass.associated.hash = null;
-		}
-		else if(!keepass.isAssociated()) {
-			console.log("Association was not successful");
-			page.tabs[tab.id].errorMessage = "Association was not successful.";
-		}
-	}
+			if(!verifier) {
+				keepass.associated.value = false;
+				keepass.associated.hash = null;
+				resolve(false);
+				return;
+			}
 
-	return keepass.isAssociated();
+			keepass.sendAsync(request).then((result) => {
+				var status = result[0];
+				var response = result[1];
+	
+				if(keepass.checkStatus(status, tab)) {
+					var r = JSON.parse(response);
+					var id = verifier[0];
+					var key = verifier[1];
+	
+					if(r.Version) {
+						keepass.currentKeePassHttp = {
+							"version": r.Version,
+							"versionParsed": parseInt(r.Version.replace(/\./g,""))
+						};
+					}
+
+				keepass.isEncryptionKeyUnrecognized = false;
+					if(!keepass.verifyResponse(r, key, id)) {
+						var hash = r.Hash || 0;
+						keepass.deleteKey(hash);
+						keepass.isEncryptionKeyUnrecognized = true;
+						console.log("Encryption key is not recognized!");
+						page.tabs[tab.id].errorMessage = "Encryption key is not recognized.";
+						keepass.associated.value = false;
+						keepass.associated.hash = null;
+					}
+					else if(!keepass.isAssociated()) {
+						console.log("Association was not successful");
+						page.tabs[tab.id].errorMessage = "Association was not successful.";
+					}
+				}
+
+				resolve(keepass.isAssociated());
+			});
+		});
+	});
 }
 
 keepass.getDatabaseHash = function (tab, triggerUnlock) {
-	var request = {
-		"RequestType": "test-associate",
-		"TriggerUnlock": (triggerUnlock === true) ? "true" : false
-	};
+	return new Promise((resolve, reject) => {
+		var request = {
+			"RequestType": "test-associate",
+			"TriggerUnlock": (triggerUnlock === true) ? "true" : false
+		};
 
-	var oldDatabaseHash = keepass.databaseHash;
+		var oldDatabaseHash = keepass.databaseHash;
 
-	var result = keepass.send(request);
-	if(keepass.checkStatus(result[0], tab)) {
-		var response = JSON.parse(result[1]);
-		keepass.setCurrentKeePassHttpVersion(response.Version);
-		keepass.databaseHash = response.Hash || "no-hash";
-	}
-	else {
-		keepass.databaseHash = "no-hash";
-	}
+		keepass.sendAsync(request).then((result) => {
+			if(keepass.checkStatus(result[0], tab)) {
+				var response = JSON.parse(result[1]);
+				keepass.setCurrentKeePassHttpVersion(response.Version);
+				keepass.databaseHash = response.Hash || "no-hash";
+			} else {
+				keepass.databaseHash = "no-hash";
+			}
 
-	if(oldDatabaseHash && oldDatabaseHash != keepass.databaseHash) {
-		//console.log("clear association (old db hash != new db hash ==> " + oldDatabaseHash + " != " + keepass.databaseHash);
-		keepass.associated.value = false;
-		keepass.associated.hash = null;
-	}
+			if(oldDatabaseHash && oldDatabaseHash != keepass.databaseHash) {
+				//console.log("clear association (old db hash != new db hash ==> " + oldDatabaseHash + " != " + keepass.databaseHash);
+				keepass.associated.value = false;
+				keepass.associated.hash = null;
+			}
 
-	return keepass.databaseHash;
+			resolve(keepass.databaseHash);
+		}).catch((reason) => {
+			page.tabs[tab.id].errorMessage = "Unable to connect to KeePassHttp";
+			resolve(null);
+		});
+	});
 }
 
 keepass.setVerifier = function(request, inputKey) {

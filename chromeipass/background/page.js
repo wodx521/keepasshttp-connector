@@ -16,7 +16,7 @@ page.migrateSettings = () => {
 				resolve(obj);
 			});
 		} else {
-			event.onLoadSettings((settings) => {
+			cipevent.onLoadSettings((settings) => {
 				resolve(settings);
 			});
 		}
@@ -57,11 +57,24 @@ page.initSettings = function() {
 	});
 }
 
-page.initOpenedTabs = function() {
-	browser.tabs.query({}).then(function(tabs) {
-		for(var i = 0; i < tabs.length; i++) {
-			page.createTabEntry(tabs[i].id);
-		}
+page.initOpenedTabs = function () {
+	return new Promise((resolve, reject) => {
+		browser.tabs.query({}).then(function (tabs) {
+			for (var i = 0; i < tabs.length; i++) {
+				page.createTabEntry(tabs[i].id);
+			}
+
+			// set initial tab-ID
+			browser.tabs.query({ "active": true, "currentWindow": true }).then(function (tabs) {
+				if (tabs.length === 0) {
+					resolve();
+					return; // For example: only the background devtools or a popup are opened
+				}
+				page.currentTabId = tabs[0].id;
+				browserAction.show(null, tabs[0]);
+				resolve();
+			});
+		});
 	});
 }
 

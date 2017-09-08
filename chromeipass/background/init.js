@@ -2,25 +2,15 @@
 keepass.migrateKeyRing().then(() => {
 	// load settings
 	page.initSettings().then(() => {
-		// initial connection with KeePassHttp
-		keepass.getDatabaseHash(null);
-
-		// create tab information structure for every opened tab
-		page.initOpenedTabs();
-
-		// set initial tab-ID
-		browser.tabs.query({"active": true, "currentWindow": true}).then(function(tabs) {
-			if (tabs.length === 0)
-				return; // For example: only the background devtools or a popup are opened
-			page.currentTabId = tabs[0].id;
-			browserAction.show(null, tabs[0]);
+		page.initOpenedTabs().then(() => {
+			// initial connection with KeePassHttp
+			keepass.getDatabaseHash({ id: page.currentTabId });
 		});
 	});
 });
 
 // Milliseconds for intervall (e.g. to update browserAction)
 var _interval = 250;
-
 
 /**
  * Generate information structure for created tab and invoke all needed
@@ -32,7 +22,7 @@ browser.tabs.onCreated.addListener(function(tab) {
 		//console.log("browser.tabs.onCreated(" + tab.id+ ")");
 		if(tab.selected) {
 			page.currentTabId = tab.id;
-			event.invoke(page.switchTab, null, tab.id, []);
+			cipevent.invoke(page.switchTab, null, tab.id, []);
 		}
 	}
 });
@@ -65,7 +55,7 @@ browser.tabs.onActivated.addListener(function(activeInfo) {
 			page.currentTabId = info.id;
 			if(info.status == "complete") {
 				//console.log("event.invoke(page.switchTab, null, "+info.id + ", []);");
-				event.invoke(page.switchTab, null, info.id, []);
+				cipevent.invoke(page.switchTab, null, info.id, []);
 			}
 		}
 	});
@@ -78,7 +68,7 @@ browser.tabs.onActivated.addListener(function(activeInfo) {
  */
 browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	if(changeInfo.status == "complete") {
-		event.invoke(browserAction.removeRememberPopup, null, tabId, []);
+		cipevent.invoke(browserAction.removeRememberPopup, null, tabId, []);
 	}
 });
 
@@ -106,7 +96,7 @@ if (browser.webRequest.onAuthRequired) {
 /**
  * Interaction between background-script and front-script
  */
-browser.runtime.onMessage.addListener(event.onMessage);
+browser.runtime.onMessage.addListener(cipevent.onMessage);
 
 
 /**

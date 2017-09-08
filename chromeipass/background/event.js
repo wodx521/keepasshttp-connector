@@ -1,8 +1,7 @@
-var event = {};
+var cipevent = {};
 
-
-event.onMessage = function(request, sender, callback) {
-	if (request.action in event.messageHandlers) {
+cipevent.onMessage = function(request, sender, callback) {
+	if (request.action in cipevent.messageHandlers) {
 		//console.log("onMessage(" + request.action + ") for #" + sender.tab.id);
 
 		if(!sender.hasOwnProperty('tab') || sender.tab.id < 1) {
@@ -10,7 +9,7 @@ event.onMessage = function(request, sender, callback) {
 			sender.tab.id = page.currentTabId;
 		}
 
-		event.invoke(event.messageHandlers[request.action], callback, sender.tab.id, request.args);
+		cipevent.invoke(cipevent.messageHandlers[request.action], callback, sender.tab.id, request.args);
 
 		// onMessage closes channel for callback automatically
 		// if this method does not return true
@@ -31,7 +30,7 @@ event.onMessage = function(request, sender, callback) {
  * @param {bool} secondTime
  * @returns null (asynchronous)
  */
-event.invoke = function(handler, callback, senderTabId, args, secondTime) {
+cipevent.invoke = function(handler, callback, senderTabId, args, secondTime) {
 	if(senderTabId < 1) {
 		return;
 	}
@@ -53,7 +52,7 @@ event.invoke = function(handler, callback, senderTabId, args, secondTime) {
 			// using window.open()
 			if (!secondTime) {
 				window.setTimeout(function() {
-					event.invoke(handler, callback, senderTabId, args, true);
+					cipevent.invoke(handler, callback, senderTabId, args, true);
 				}, 250);
 			}
 			return;
@@ -77,12 +76,12 @@ event.invoke = function(handler, callback, senderTabId, args, secondTime) {
 	});
 }
 
-event.onShowAlert = function(callback, tab, message) {
+cipevent.onShowAlert = function(callback, tab, message) {
 	if( page.settings.supressAlerts ){ console.log(message); }
 	else { browser.tabs.executeScript({code: 'alert(\''+message+'\')'}); }
 }
 
-event.onLoadSettings = function(callback, tab) {
+cipevent.onLoadSettings = function(callback, tab) {
 	browser.storage.local.get({'settings': {}}).then((item) => {
 		callback(item.settings);
 	}, (err) => {
@@ -90,7 +89,7 @@ event.onLoadSettings = function(callback, tab) {
 	});
 }
 
-event.onLoadKeyRing = function(callback, tab) {
+cipevent.onLoadKeyRing = function(callback, tab) {
 	browser.storage.local.get({'keyRing': {}}).then(function(item) {
 		keepass.keyRing = item.keyRing;
 		if(keepass.isAssociated() && !keepass.keyRing[keepass.associated.hash]) {
@@ -105,79 +104,81 @@ event.onLoadKeyRing = function(callback, tab) {
 	});
 }
 
-event.onSaveSettings = function(callback, tab, settings) {
+cipevent.onSaveSettings = function(callback, tab, settings) {
 	browser.storage.local.set({'settings': settings}).then(function() {
-		event.onLoadSettings();
+		cipevent.onLoadSettings();
 	});
 }
 
-event.onGetStatus = function(callback, tab) {
-	keepass.testAssociation(tab);
+cipevent.onGetStatus = function(callback, tab) {
+	keepass.testAssociation(tab).then((configured) => {
+		var keyId = null;
+		if (configured) {
+			keyId = keepass.keyRing[keepass.databaseHash].id;
+		}
 
-	var configured = keepass.isConfigured();
-	var keyId = null;
-	if (configured) {
-		keyId = keepass.keyRing[keepass.databaseHash].id;
-	}
+		browserAction.showDefault(null, tab);
 
-	browserAction.showDefault(null, tab);
-
-	callback({
-		identifier: keyId,
-		configured: configured,
-		databaseClosed: keepass.isDatabaseClosed,
-		keePassHttpAvailable: keepass.isKeePassHttpAvailable,
-		encryptionKeyUnrecognized: keepass.isEncryptionKeyUnrecognized,
-		associated: keepass.isAssociated(),
-		error: page.tabs[tab.id].errorMessage
+		callback({
+			identifier: keyId,
+			configured: configured,
+			databaseClosed: keepass.isDatabaseClosed,
+			keePassHttpAvailable: keepass.isKeePassHttpAvailable,
+			encryptionKeyUnrecognized: keepass.isEncryptionKeyUnrecognized,
+			associated: keepass.isAssociated(),
+			error: page.tabs[tab.id].errorMessage
+		});
 	});
 }
 
-event.onPopStack = function(callback, tab) {
+cipevent.onPopStack = function(callback, tab) {
 	browserAction.stackPop(tab.id);
 	browserAction.show(null, tab);
 }
 
-event.onGetTabInformation = function(callback, tab) {
+cipevent.onGetTabInformation = function(callback, tab) {
 	var id = tab.id || page.currentTabId;
 
 	callback(page.tabs[id]);
 }
 
-event.onGetConnectedDatabase = function(callback, tab) {
+cipevent.onGetConnectedDatabase = function(callback, tab) {
 	callback({
 		"count": Object.keys(keepass.keyRing).length,
 		"identifier": (keepass.keyRing[keepass.associated.hash]) ? keepass.keyRing[keepass.associated.hash].id : null
 	});
 }
 
-event.onGetKeePassHttpVersions = function(callback, tab) {
+cipevent.onGetKeePassHttpVersions = function(callback, tab) {
 	if(keepass.currentKeePassHttp.version == 0) {
-		keepass.getDatabaseHash(tab);
+		keepass.getDatabaseHash(tab).then(() => {
+			callback({"current": keepass.currentKeePassHttp.version, "latest": keepass.latestKeePassHttp.version});
+		});
+	} else {
+		callback({"current": keepass.currentKeePassHttp.version, "latest": keepass.latestKeePassHttp.version});
 	}
-	callback({"current": keepass.currentKeePassHttp.version, "latest": keepass.latestKeePassHttp.version});
 }
 
-event.onCheckUpdateKeePassHttp = function(callback, tab) {
+cipevent.onCheckUpdateKeePassHttp = function(callback, tab) {
 	keepass.checkForNewKeePassHttpVersion();
 	callback({"current": keepass.currentKeePassHttp.version, "latest": keepass.latestKeePassHttp.version});
 }
 
-event.onUpdateAvailableKeePassHttp = function(callback, tab) {
+cipevent.onUpdateAvailableKeePassHttp = function(callback, tab) {
 	callback(keepass.keePassHttpUpdateAvailable());
 }
 
-event.onRemoveCredentialsFromTabInformation = function(callback, tab) {
+cipevent.onRemoveCredentialsFromTabInformation = function(callback, tab) {
 	var id = tab.id || page.currentTabId;
 
 	page.clearCredentials(id);
 }
 
-event.onSetRememberPopup = function(callback, tab, username, password, url, usernameExists, credentialsList) {
+cipevent.onSetRememberPopup = function(callback, tab, username, password, url, usernameExists, credentialsList) {
 	browserAction.setRememberPopup(tab.id, username, password, url, usernameExists, credentialsList);
 }
 
-event.onLoginPopup = function(callback, tab, logins) {
+cipevent.onLoginPopup = function(callback, tab, logins) {
 	var stackData = {
 		level: 1,
 		iconType: "questionmark",
@@ -190,7 +191,7 @@ event.onLoginPopup = function(callback, tab, logins) {
 	browserAction.show(null, tab);
 }
 
-event.onHTTPAuthPopup = function(callback, tab, data) {
+cipevent.onHTTPAuthPopup = function(callback, tab, data) {
 	var stackData = {
 		level: 1,
 		iconType: "questionmark",
@@ -203,7 +204,7 @@ event.onHTTPAuthPopup = function(callback, tab, data) {
 	browserAction.show(null, tab);
 }
 
-event.onMultipleFieldsPopup = function(callback, tab) {
+cipevent.onMultipleFieldsPopup = function(callback, tab) {
 	var stackData = {
 		level: 1,
 		iconType: "normal",
@@ -214,34 +215,34 @@ event.onMultipleFieldsPopup = function(callback, tab) {
 	browserAction.show(null, tab);
 }
 
-event.pageClearLogins = function(callback, tab) {
+cipevent.pageClearLogins = function(callback, tab) {
 	page.clearLogins(tab.id);
 	callback();
 }
 
 // all methods named in this object have to be declared BEFORE this!
-event.messageHandlers = {
+cipevent.messageHandlers = {
 	'add_credentials': keepass.addCredentials,
-	'alert': event.onShowAlert,
+	'alert': cipevent.onShowAlert,
 	'associate': keepass.associate,
-	'check_update_keepasshttp': event.onCheckUpdateKeePassHttp,
-	'get_connected_database': event.onGetConnectedDatabase,
-	'get_keepasshttp_versions': event.onGetKeePassHttpVersions,
-	'get_status': event.onGetStatus,
-	'get_tab_information': event.onGetTabInformation,
-	'load_keyring': event.onLoadKeyRing,
-	'load_settings': event.onLoadSettings,
-	'page_clear_logins': event.pageClearLogins,
-	'pop_stack': event.onPopStack,
-	'popup_login': event.onLoginPopup,
-	'popup_multiple-fields': event.onMultipleFieldsPopup,
-	'remove_credentials_from_tab_information': event.onRemoveCredentialsFromTabInformation,
+	'check_update_keepasshttp': cipevent.onCheckUpdateKeePassHttp,
+	'get_connected_database': cipevent.onGetConnectedDatabase,
+	'get_keepasshttp_versions': cipevent.onGetKeePassHttpVersions,
+	'get_status': cipevent.onGetStatus,
+	'get_tab_information': cipevent.onGetTabInformation,
+	'load_keyring': cipevent.onLoadKeyRing,
+	'load_settings': cipevent.onLoadSettings,
+	'page_clear_logins': cipevent.pageClearLogins,
+	'pop_stack': cipevent.onPopStack,
+	'popup_login': cipevent.onLoginPopup,
+	'popup_multiple-fields': cipevent.onMultipleFieldsPopup,
+	'remove_credentials_from_tab_information': cipevent.onRemoveCredentialsFromTabInformation,
 	'retrieve_credentials': keepass.retrieveCredentials,
 	'show_default_browseraction': browserAction.showDefault,
 	'update_credentials': keepass.updateCredentials,
-	'save_settings': event.onSaveSettings,
-	'set_remember_credentials': event.onSetRememberPopup,
+	'save_settings': cipevent.onSaveSettings,
+	'set_remember_credentials': cipevent.onSetRememberPopup,
 	'stack_add': browserAction.stackAdd,
-	'update_available_keepasshttp': event.onUpdateAvailableKeePassHttp,
+	'update_available_keepasshttp': cipevent.onUpdateAvailableKeePassHttp,
 	'generate_password': keepass.generatePassword,
 };
