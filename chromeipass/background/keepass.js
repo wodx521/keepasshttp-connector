@@ -363,9 +363,29 @@ keepass.migrateKeyRing = () => {
 				}
 				delete localStorage[keepass.keyId];
 				delete localStorage[keepass.keyBody];
-			} else {
-				resolve();
+				return;
 			}
+			// change dates to numbers, for compatibilty with chrome
+			if (keyring) {
+				var num = 0;
+				for (var keyHash in keyring) {
+					var key = keyring[keyHash];
+					['created', 'lastUsed'].forEach((fld) => {
+						var v = key[fld];
+						if (v instanceof Date && v.valueOf() >= 0) {
+							key[fld] = v.valueOf();
+							num++;
+						} else if (typeof v !== 'number') {
+							key[fld] = Date.now().valueOf();
+							num++;
+						}
+					});
+				}
+				if (num > 0) {
+					browser.storage.local.set({ keyRing: keyring });
+				}
+			}
+			resolve();
 		});
 	});
 };
@@ -376,8 +396,8 @@ keepass.saveKey = function(hash, id, key) {
 			"id": id,
 			"key": key,
 			"icon": "blue",
-			"created": new Date(),
-			"last-used": new Date()
+			"created": new Date().valueOf(),
+			"lastUsed": new Date().valueOf()
 		}
 	}
 	else {
@@ -389,7 +409,7 @@ keepass.saveKey = function(hash, id, key) {
 
 keepass.updateLastUsed = function(hash) {
 	if((hash in keepass.keyRing)) {
-		keepass.keyRing[hash].lastUsed = new Date();
+		keepass.keyRing[hash].lastUsed = new Date().valueOf();
 		browser.storage.local.set({'keyRing': keepass.keyRing});
 	}
 }
@@ -421,7 +441,7 @@ keepass.setCurrentKeePassHttpVersion = function(version) {
 
 keepass.keePassHttpUpdateAvailable = function() {
 	if(page.settings.checkUpdateKeePassHttp && page.settings.checkUpdateKeePassHttp > 0) {
-		var lastChecked = (keepass.latestKeePassHttp.lastChecked) ? new Date(keepass.latestKeePassHttp.lastChecked) : new Date("11/21/1986");
+		var lastChecked = (keepass.latestKeePassHttp.lastChecked) ? new Date(keepass.latestKeePassHttp.lastChecked) : new Date(1986, 11, 21);
 		var daysSinceLastCheck = Math.floor(((new Date()).getTime()-lastChecked.getTime())/86400000);
 		if(daysSinceLastCheck >= page.settings.checkUpdateKeePassHttp) {
 			keepass.checkForNewKeePassHttpVersion();
@@ -449,7 +469,7 @@ keepass.checkForNewKeePassHttpVersion = function() {
 		if($version != -1) {
 			browser.storage.local.set({'latestKeePassHttp': keepass.latestKeePassHttp});
 		}
-		keepass.latestKeePassHttp.lastChecked = new Date();
+		keepass.latestKeePassHttp.lastChecked = new Date().valueOf();
 	};
 	xhr.onerror = (err) => {
 		console.log('Error: ' + err);
