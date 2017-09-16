@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Settings | chromeIPass</title>
+		<title>Settings | KeePassHttp-Connector</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="../bootstrap-btn.css" />
@@ -104,7 +104,7 @@
 	<body>
 		<div class="container">
 			<div class="masthead">
-				<h3 class="muted"><img src="/icons/keepass_48x48.png" alt="logo" /> chromeIPass</h3>
+				<h3 class="muted"><img src="/icons/keepass_48x48.png" alt="logo" /> KeePassHttp-Connector</h3>
 				<div class="navbar">
 					<div class="navbar-inner">
 						<div class="container">
@@ -185,14 +185,14 @@
 					<label class="checkbox">
 						<input type="checkbox" name="autoRetrieveCredentials" value="1" /> Automatically retrieve credentials.
 					</label>
-					<span class="help-block">chromeIPass will immediately retrieve the credentials when the tab is activated.</span>
+					<span class="help-block">KeePassHttp-Connector will immediately retrieve the credentials when the tab is activated.</span>
 				</p>
 				<hr />
 				<p>
 					<label class="checkbox">
 						<input type="checkbox" name="autoFillSingleEntry" value="1" /> Automatically fill-in single credentials entry.
 					</label>
-					<span class="help-block">If chromeIPass does only receive a single entry from KeePassHttp it automatically fills this credentials into the found credential fields.</span>
+					<span class="help-block">If KeePassHttp-Connector does only receive a single entry from KeePassHttp it automatically fills this credentials into the found credential fields.</span>
 				</p>
 				<hr />
 				<p>
@@ -211,7 +211,7 @@
 					<label class="radio inline"><input type="radio" name="checkUpdateKeePassHttp" value="0" /> never</label>
 				</p>
 				<div class="help-block kphVersion">
-					chromeIPass needs the plugin KeePassHttp to retrieve credentials from and send them to KeePass.
+					KeePassHttp-Connector needs the plugin KeePassHttp to retrieve credentials from and send them to KeePass.
 					<br />
 					You can download the latest stable version from here: <a target="_blank" href="https://github.com/pfn/keepasshttp">https://github.com/pfn/keepasshttp</a>
 					<br />
@@ -231,7 +231,7 @@
 						<input type="checkbox" name="autoFillAndSend" value="1" /> Auto fill HTTP Auth dialogs and send them.
 					</label>
 					<span class="help-block">
-						If credentials are found for a page and the login-type is an HTTP Auth request, chromeIPass tries to login with the first given credentials.
+						If credentials are found for a page and the login-type is an HTTP Auth request, KeePassHttp-Connector tries to login with the first given credentials.
 						<br />
 						An HTTP Auth dialog looks like this:
 					</span>
@@ -245,11 +245,11 @@
 				<div id="dangerousSettings">
 				<br />
 					<p>
-						chromeIPass communicates on <em>http://[hostname]:[port]</em> with KeePassHTTP.
+						KeePassHttp-Connector communicates on <em>http://[hostname]:[port]</em> with KeePassHTTP.
 						<br />
 						If you want to run KeePass on a remote computer, you have to change the hostname.
 						<br />
-						Sometimes the default port is still in use and you have to change the port number in KeePassHTTP to get it running. So you have to set the same port number in chromeIPass and KeePassHTTP.
+						Sometimes the default port is still in use and you have to change the port number in KeePassHTTP to get it running. So you have to set the same port number in KeePassHttp-Connector and KeePassHTTP.
 					</p>
 					<p>
 						<label for="hostname">Hostname:</label>
@@ -381,9 +381,9 @@
 				<h2>Specified credential fields</h2>
 				<hr />
 				<p>
-					If chromeIPass detects the wrong credential fields, you are able to specify the correct fields by yourself.
+					If KeePassHttp-Connector detects the wrong credential fields, you are able to specify the correct fields by yourself.
 					<br />
-					Just go to the page and click on the chromeIPass-Icon, now select <em>Choose own credential fields for this page</em>.
+					Just go to the page and click on the KeePassHttp-Connector-Icon, now select <em>Choose own credential fields for this page</em>.
 					<br />
 					On this page you can manage theses specified credential fields.
 				</p>
@@ -411,7 +411,7 @@
 					</div>
 					<div class="modal-body">
 						<p>Do you really want to remove the specified credential fields on the page <strong></strong>?</p>
-						<p class="help-block">chromeIPass will automatically detect the credential fields the next time you visit this page.</p>
+						<p class="help-block">KeePassHttp-Connector will automatically detect the credential fields the next time you visit this page.</p>
 					</div>
 					<div class="modal-footer">
 						<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
@@ -432,11 +432,11 @@
 					<a target="_blank" href="https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae" id="chrome-web-store-link">Visit extension's page in Chrome Web store</a>
 				</p>
 				<p>
-					<a target="_blank" href="https://github.com/smorks/passifox">Visit project's page in GitHub</a>.
+					<a target="_blank" href="https://github.com/smorks/keepasshttp-connector">Visit project's page in GitHub</a>.
 				</p>
 				<hr />
 				<div class="row">
-					<div class="span2">chromeIPass Version:</div>
+					<div class="span2">KeePassHttp-Connector Version:</div>
 					<div class="span6"><em class="versionCIP"></em></div>
 				</div>
 				<div class="row">

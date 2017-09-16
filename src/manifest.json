@@ -1,5 +1,5 @@
 {
-	"name": "chromeIPass",
+	"name": "KeePassHttp-Connector",
 	"version": "2.8.6",
 	"manifest_version": 2,
 	"description": "KeePass integration for browsers using KeePassHttp",
@@ -18,7 +18,7 @@
 			"19": "icons/19x19/icon_normal_blue_19x19.png",
 			"38": "icons/keepass_38x38.png"
 		},
-		"default_title": "chromeIPass",
+		"default_title": "KeePassHttp-Connector",
 		"default_popup": "popups/popup.html"
 	},
 	"options_ui": {

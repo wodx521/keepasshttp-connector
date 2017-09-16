@@ -4,24 +4,22 @@ is an extension to integrate [KeePass](http://keepass.info)/[KeePassXC](https://
 
 They require [KeePassHttp](https://github.com/pfn/keepasshttp/), a KeePass plugin to expose password entries securely (256bit AES/CBC) over HTTP.
 
-## Google Chrome
+## Downloads
 
-- [Download](https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae)
-- [Documentation](https://github.com/smorks/passifox/blob/master/documentation/chromeIPass.md) (features, installation guide, troubleshooting, functionality, etc.)
+- [Mozilla Firefox](https://github.com/smorks/keepasshttp-connector/releases) (soon in https://addons.mozilla.org)
+- Google Chrome (soon in Chrome Web Store)
 
-## Mozilla Firefox
+## Documentation
 
-- [Download](https://github.com/smorks/passifox/releases)
-- [Documentation](https://github.com/smorks/passifox/blob/master/documentation/PassIFox.md)
+- [Documentation](https://github.com/smorks/keepasshttp-connector/blob/master/documentation/KeePassHttp-Connector.md) (features, installation guide, troubleshooting, functionality, etc.)
 
-Currently, the documentation of PassIFox is not up-to-date!
 Support is always welcome.
 
 ## Troubleshooting
 
-If you [open an issue](https://github.com/smorks/passifox/issues/), always give us the following information:
+If you [open an issue](https://github.com/smorks/keepasshttp-connector/issues/), always give us the following information:
 
-1. the extension are you using (chromeIPass or PassIFox) and its version
+1. the extension are you using and its version
 2. version of your browser
 3. KeePassHttp version
 4. KeePass/KeePassXC version
