@@ -4,6 +4,8 @@ is an extension to integrate [KeePass](http://keepass.info)/[KeePassXC](https://
 
 They require [KeePassHttp](https://github.com/pfn/keepasshttp/), a KeePass plugin to expose password entries securely (256bit AES/CBC) over HTTP.
 
+It was forked from [chromeIPass/passIFox](https://github.com/pfn/passifox), with support for newer versions of Firefox (42+).
+
 ## Downloads
 
 - [Mozilla Firefox](https://github.com/smorks/keepasshttp-connector/releases) (soon in https://addons.mozilla.org)
@@ -25,7 +27,7 @@ If you [open an issue](https://github.com/smorks/keepasshttp-connector/issues/),
 4. KeePass/KeePassXC version
 5. pages on which the error occur
 
-KeePassHttp-Connector Copyright © 2010-2017 Perry Nguyen
+KeePassHttp-Connector Copyright © 2017 Andy Brandt
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, version 3 of the License.
