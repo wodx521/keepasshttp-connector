@@ -1,19 +1,18 @@
-# PassIFox and chromeIPass
+# KeePassHttp-Connector
 
-are extensions to integrate [KeePass](http://keepass.info)/[KeePassXC](https://keepassxc.org/) as a password manager with Mozilla Firefox and Google Chrome browsers.
+is an extension to integrate [KeePass](http://keepass.info)/[KeePassXC](https://keepassxc.org/) as a password manager with Mozilla Firefox and Google Chrome browsers.
 
 They require [KeePassHttp](https://github.com/pfn/keepasshttp/), a KeePass plugin to expose password entries securely (256bit AES/CBC) over HTTP.
 
-
-## chromeIPass (for Google Chrome)
+## Google Chrome
 
 - [Download](https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae)
-- [Documentation](https://github.com/pfn/passifox/blob/master/documentation/chromeIPass.md) (features, installation guide, troubleshooting, functionality, etc.)
+- [Documentation](https://github.com/smorks/passifox/blob/master/documentation/chromeIPass.md) (features, installation guide, troubleshooting, functionality, etc.)
 
-## PassIFox (for Mozilla Firefox)
+## Mozilla Firefox
 
 - [Download](https://github.com/smorks/passifox/releases)
-- [Documentation](https://github.com/pfn/passifox/blob/master/documentation/PassIFox.md)
+- [Documentation](https://github.com/smorks/passifox/blob/master/documentation/PassIFox.md)
 
 Currently, the documentation of PassIFox is not up-to-date!
 Support is always welcome.
@@ -24,11 +23,11 @@ If you [open an issue](https://github.com/smorks/passifox/issues/), always give 
 
 1. the extension are you using (chromeIPass or PassIFox) and its version
 2. version of your browser
-2. KeePassHttp version
-3. KeePass/KeePassXC version
-4. pages on which the error occur
+3. KeePassHttp version
+4. KeePass/KeePassXC version
+5. pages on which the error occur
 
-PassIFox & ChromeIPass Copyright © 2010-2017 Perry Nguyen  
+KeePassHttp-Connector Copyright © 2010-2017 Perry Nguyen
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, version 3 of the License.

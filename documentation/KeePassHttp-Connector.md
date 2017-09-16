@@ -1,9 +1,9 @@
-# chromeIPass
+# KeePassHttp-Connector
 
 Is a WebExtension for browsers to send and receive credentials from KeePass(XC).
 
 * For Google Chrome, it can be downloaded from [Chrome Web Store](https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae).
-* For Firefox, Work In Progress...
+* For Firefox, it can be downloaded from [the Releaases page](https://github.com/smorks/passifox/releases).
 
 Please read at least the section [Important information](#6-important-information).
 
