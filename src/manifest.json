@@ -1,6 +1,6 @@
 {
 	"name": "KeePassHttp-Connector",
-	"version": "2.8.6",
+	"version": "1.0.0",
 	"manifest_version": 2,
 	"description": "KeePass integration for browsers using KeePassHttp",
 	"icons": {
@@ -10,7 +10,7 @@
 	},
 	"applications": {
 		"gecko": {
-			"id": "chromeipass@addons.brandt.tech"
+			"id": "keepasshttp-connector@addons.brandt.tech"
 		}
 	},
 	"browser_action": {
