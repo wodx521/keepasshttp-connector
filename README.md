@@ -9,7 +9,7 @@ It was forked from [chromeIPass/passIFox](https://github.com/pfn/passifox), with
 ## Downloads
 
 - Mozilla Firefox - [Add-on](https://addons.mozilla.org/en-US/firefox/addon/keepasshttp-connector/)
-- Google Chrome - None yet (soon in Chrome Web Store)
+- Google Chrome - [Extension](https://chrome.google.com/webstore/detail/keepasshttp-connector/dafgdjggglmmknipkhngniifhplpcldb)
 
 ## Documentation
 
