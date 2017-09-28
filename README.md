@@ -8,7 +8,7 @@ It was forked from [chromeIPass/passIFox](https://github.com/pfn/passifox), with
 
 ## Downloads
 
-- Mozilla Firefox - [Releases](https://github.com/smorks/keepasshttp-connector/releases) (soon in https://addons.mozilla.org)
+- Mozilla Firefox - [Add-on](https://addons.mozilla.org/en-US/firefox/addon/keepasshttp-connector/)
 - Google Chrome - None yet (soon in Chrome Web Store)
 
 ## Documentation
