@@ -6,26 +6,9 @@ page.tabs = {};
 page.currentTabId = -1;
 page.blockedTabs = {};
 
-page.migrateSettings = () => {
-	return new Promise((resolve, reject) => {
-		var old = localStorage.getItem('settings');
-		if (old) {
-			var settings = JSON.parse(old);
-			browser.storage.local.set({'settings': settings}).then(() => {
-				localStorage.removeItem('settings');
-				resolve(obj);
-			});
-		} else {
-			cipevent.onLoadSettings((settings) => {
-				resolve(settings);
-			});
-		}
-	});
-};
-
 page.initSettings = function() {
 	return new Promise((resolve, reject) => {
-		page.migrateSettings().then((settings) => {
+		cipevent.onLoadSettings((settings) => {
 			page.settings = settings;
 			if(!("checkUpdateKeePassHttp" in page.settings)) {
 				page.settings.checkUpdateKeePassHttp = 3;

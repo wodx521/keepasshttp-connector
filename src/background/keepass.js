@@ -343,28 +343,6 @@ keepass.migrateKeyRing = () => {
 	return new Promise((resolve, reject) => {
 		browser.storage.local.get('keyRing').then((item) => {
 			var keyring = item.keyRing;
-			if ('keyRing' in localStorage) {
-				if (!keyring) {
-					keyring = JSON.parse(localStorage['keyRing']);
-					browser.storage.local.set({'keyRing': keyring});
-				}
-				delete localStorage['keyRing'];
-			}
-			if (keepass.keyId in localStorage && keepass.keyBody in localStorage) {
-				if (!keyring) {
-					var keyId = localStorage[keepass.keyId];
-					var keyBody = localStorage[keepass.keyBody];
-					keepass.getDatabaseHash(null).then((hash) => {
-						keepass.saveKey(hash, keyId, keyBody);
-						resolve();
-					});
-				} else {
-					resolve();
-				}
-				delete localStorage[keepass.keyId];
-				delete localStorage[keepass.keyBody];
-				return;
-			}
 			// change dates to numbers, for compatibilty with chrome
 			if (keyring) {
 				var num = 0;
