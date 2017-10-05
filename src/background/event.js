@@ -220,6 +220,10 @@ cipevent.pageClearLogins = function(callback, tab) {
 	callback();
 }
 
+cipevent.isFirefox = function(callback) {
+	callback(utils.isFirefox);
+}
+
 // all methods named in this object have to be declared BEFORE this!
 cipevent.messageHandlers = {
 	'add_credentials': keepass.addCredentials,
@@ -245,4 +249,5 @@ cipevent.messageHandlers = {
 	'stack_add': browserAction.stackAdd,
 	'update_available_keepasshttp': cipevent.onUpdateAvailableKeePassHttp,
 	'generate_password': keepass.generatePassword,
+	'is_firefox': cipevent.isFirefox
 };

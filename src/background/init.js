@@ -83,7 +83,7 @@ if (browser.webRequest.onAuthRequired) {
 	var reqType = 'blocking';
 	var opts = { urls: ['<all_urls>'] };
 
-	if (/Chrome/.test(navigator.userAgent) && /Google/.test(navigator.vendor)) {
+	if (utils.isFirefox) {
 		handleReq = httpAuth.handleRequestCallback;
 		reqType = 'asyncBlocking';
 	}
@@ -98,13 +98,18 @@ if (browser.webRequest.onAuthRequired) {
  */
 browser.runtime.onMessage.addListener(cipevent.onMessage);
 
+var menuContexts = ['editable'];
+
+if (utils.isFirefox) {
+	menuContexts.push('password');
+}
 
 /**
  * Add context menu entry for filling in username + password
  */
 browser.contextMenus.create({
-	"title": "Fill &User + Pass",
-	"contexts": [ "editable" ],
+	"title": "Fill User + Pass",
+	"contexts": menuContexts,
 	"onclick": function(info, tab) {
 		browser.tabs.sendMessage(tab.id, {
 			action: "fill_user_pass"
@@ -116,8 +121,8 @@ browser.contextMenus.create({
  * Add context menu entry for filling in only password which matches for given username
  */
 browser.contextMenus.create({
-	"title": "Fill &Pass Only",
-	"contexts": [ "editable" ],
+	"title": "Fill Pass Only",
+	"contexts": menuContexts,
 	"onclick": function(info, tab) {
 		browser.tabs.sendMessage(tab.id, {
 			action: "fill_pass_only"
@@ -129,8 +134,8 @@ browser.contextMenus.create({
  * Add context menu entry for creating icon for generate-password dialog
  */
 browser.contextMenus.create({
-	"title": "Show Password &Generator Icons",
-	"contexts": [ "editable" ],
+	"title": "Show Password Generator Icons",
+	"contexts": menuContexts,
 	"onclick": function(info, tab) {
 		browser.tabs.sendMessage(tab.id, {
 			action: "activate_password_generator"
@@ -142,8 +147,8 @@ browser.contextMenus.create({
  * Add context menu entry for creating icon for generate-password dialog
  */
 browser.contextMenus.create({
-	"title": "&Save credentials",
-	"contexts": [ "editable" ],
+	"title": "Save credentials",
+	"contexts": menuContexts,
 	"onclick": function(info, tab) {
 		browser.tabs.sendMessage(tab.id, {
 			action: "remember_credentials"
