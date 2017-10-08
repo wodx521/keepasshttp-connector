@@ -37,7 +37,7 @@ Table of content:
 	- [7.2 Auto detection of input fields](#72-auto-detection-of-input-fields)
 - [8. Troubleshooting](#8-troubleshooting)
 	- [8.1 Wrong credentials are filled-in](#81-wrong-credentials-are-filled-in)
-	- [8.2 chromeIPass stopped working](#82-chromeipass-stopped-working)
+	- [8.2 KeePassHTTP-Connector stopped working](#82-keepasshttp-connector-stopped-working)
 - [9. Security](#9-security)
 
 ## 1. Features
@@ -68,7 +68,7 @@ Table of content:
 - [KeePassXC](https://keepassxc.org/) v2.1.1 or higher
 
 OR
-- [KeePass](http://keepass.info) v2.17 or higher
+- [KeePass](https://keepass.info) v2.17 or higher
 - [KeePassHttp](https://github.com/pfn/keepasshttp) v1.0.7 or higher (recommended v1.4 or higher)
 
 It is recommended to disable the built-in Chrome password management when using this extension
@@ -76,7 +76,7 @@ It is recommended to disable the built-in Chrome password management when using 
 ### 2.2 Installation
 1. Your database in KeePass has to be unlocked.
 2. Install the extension.
-  - For Chrome, the ChromeIPass extension is available in the [Chrome Web Store](https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae).
+  - For Chrome, the KeePassHTTP-Connector extension is available in the [Chrome Web Store](https://chrome.google.com/webstore/detail/keepasshttp-connector/dafgdjggglmmknipkhngniifhplpcldb).
 3. Now there is a new browser icon available:<br />
 ![browser-icon](https://raw.github.com/pfn/passifox/master/documentation/images/cip-browser-icon.png)
 
@@ -90,18 +90,18 @@ It is recommended to disable the built-in Chrome password management when using 
 [<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-normal.png" alt="popup-normal" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-normal.png)
 
 7. Reload the current page.
-8. Open the settings to adjust chromeIPass for your needs.
+8. Open the settings to adjust KeePassHTTP-Connector for your needs.
 
 ## 3. Functionality
 
 ### 3.1 Access the credentials
 
-If chromeIPass detected a combination of username + password fields it requests all credentials for the current page from KeePassHttp.<br />
+If KeePassHTTP-Connector detected a combination of username + password fields it requests all credentials for the current page from KeePassHttp.<br />
 The received credentials are accessible via multiple ways which are described in the following sections.
 
 #### 3.1.1 Popup
 
-The icon of chromeIPass gets a question mark.<br />
+The icon of KeePassHTTP-Connector gets a question mark.<br />
 Clicking on the icon opens a popup on which you can choose the credentials which should be filled in.
 
 If there are several username + password combinations on the page the credentials are filled into the focused combination (focus on username or password field) or into the first combination.
@@ -115,21 +115,21 @@ For all combinations of username + password fields the username field supports a
 
 By clicking on an entry of the list or when the username field loose the focus it checks whether the username belongs to one of the received credentials and fills-in the password field.
 
-This feature is activated by default and can be disabled on the settings page of chromeIPass.
+This feature is activated by default and can be disabled on the settings page of KeePassHTTP-Connector.
 
 [<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-autocomplete.png" alt="autocomplete" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-autocomplete.png)
 
 #### 3.1.3 Context-menu
 
-On every textfield chromeIPass adds 3 entries to the context-menu.<br />
-Even if the field was not detected as a username or password field by chromeIPass these entries are available.
+On every textfield KeePassHTTP-Connector adds 3 entries to the context-menu.<br />
+Even if the field was not detected as a username or password field by KeePassHTTP-Connector these entries are available.
 
-If you click on _Fill User + Pass_ or _Fill Pass Only_ chromeIPass checks whether the focused field belongs to a detected combination of username + password field. If this check fails it starts a redetection for only the focused field.<br />
+If you click on _Fill User + Pass_ or _Fill Pass Only_ KeePassHTTP-Connector checks whether the focused field belongs to a detected combination of username + password field. If this check fails it starts a redetection for only the focused field.<br />
 If you focus an unrecognized password field and select _Fill User + Pass_ it will automatically detect the username field and fills-in the credentials.
 
-__Fill User + Pass__ of the context-menu will only work if chromeIPass received only one pair of credentials. Otherwise it shows you an error message and you should use the autocomplete or popup.
+__Fill User + Pass__ of the context-menu will only work if KeePassHTTP-Connector received only one pair of credentials. Otherwise it shows you an error message and you should use the autocomplete or popup.
 
-__Fill Pass Only__ does work either chromeIPass received only one pair of credentials or the associated username field contains a username which belongs to one pair of the received credentials.
+__Fill Pass Only__ does work either KeePassHTTP-Connector received only one pair of credentials or the associated username field contains a username which belongs to one pair of the received credentials.
 
 __Show Password Generator Icons__ restarts the detection of _visible_ password fields on the page and adds the key-icon for the password generator to each of them.
 
@@ -146,28 +146,28 @@ __Ctrl+Shift+P__ is the shortcut for __Fill Pass Only__ of the context-menu whic
 
 ### 3.2 Password generator
 
-chromeIPass offers a password generator which receives the password from KeePass itself.<br />
-This function has to be enabled on the settings-page of chromeIPass.
+KeePassHTTP-Connector offers a password generator which receives the password from KeePass itself.<br />
+This function has to be enabled on the settings-page of KeePassHTTP-Connector.
 
 This feature is only available with the KeePassHttp v1.4 or higher.
 
 If it is enabled every password field contains a key icon on the right side. Click on it to open the password generator:<br />
 [<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-password-generator.png" alt="password-generator" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-password-generator.png)
 
-If the key-icon does not appear, right-click on the input-field and select _chromeIPass > Show Password Generator icons_ in the context-menu.
+If the key-icon does not appear, right-click on the input-field and select _KeePassHTTP-Connector > Show Password Generator icons_ in the context-menu.
 
 Once opened the generated password is stored in the field till you reload or submit the page or till you press the generate button. Even if you close the dialog and click on another key-icon the displayed password does not change.
 
 Does a page contain more than one password field and you opened the dialog on the first password field, the option to fill-in the next field is enabled. If the two password fields are successive on the page, this option is also checked. Otherwise it is unchecked.
 
-If the password field has a limited length for inputted text chromeIPass will detect it and automatically cut the generated password. It will inform you about this change and copy the cutted password to your clipboard.
+If the password field has a limited length for inputted text KeePassHTTP-Connector will detect it and automatically cut the generated password. It will inform you about this change and copy the cutted password to your clipboard.
 
-__Because chromeIPass has some [limitations](#7-limitations-and-known-problems) to remember credentials the password should always be copied to your clipboard.__
+__Because KeePassHTTP-Connector has some [limitations](#7-limitations-and-known-problems) to remember credentials the password should always be copied to your clipboard.__
 
 
 #### 3.2.1 How is the password generated?
 
-chromeIPass sends a request to KeePass which generates a password with the settings of the built-in profile for auto-generated passwords.<br />
+KeePassHTTP-Connector sends a request to KeePass which generates a password with the settings of the built-in profile for auto-generated passwords.<br />
 To change the length and composition of generated passwords, please open the KeePass Password Generation Options.<br />
 Go to Keepass > Tools > Generate Password... and this dialog opens:<br />
 [<img src="https://raw.github.com/pfn/passifox/master/documentation/images/keepass-password-generation-options.png" alt="keepass-password-generation-options" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/keepass-password-generation-options.png)
@@ -180,7 +180,7 @@ Go to Keepass > Tools > Generate Password... and this dialog opens:<br />
 
 ### 3.3 Detection of credential fields
 
-1. After the page was loaded chromeIPass starts to search for all __visible__ input fields.
+1. After the page was loaded KeePassHTTP-Connector starts to search for all __visible__ input fields.
 2. For every found input field of the type _password_ it checks whether the previous input field is a normal textfield.
 	- if there is no previous field or the previous field is a password field --> don't add this fields as a detected username + password field combination.
 	- if the previous field is a textfield --> add both fields as combination of username + password field.
@@ -189,7 +189,7 @@ The auto detection of credential fields is called only one time, after loading o
 
 There are known limitations when the auto detection cannot detect a username + password combination. Please go to [Limitations and known problems > Auto detection of input fields](#72-auto-detection-of-input-fields) to read more about it.
 
-When it did not detect a username + password field combination you can click on the browser icon of chromeIPass and press the button "Redetect credential fields".
+When it did not detect a username + password field combination you can click on the browser icon of KeePassHTTP-Connector and press the button "Redetect credential fields".
 
 You can also use the shortcuts or context-menu as described in [3.1.3](#313-context-menu) to start the redetection for the focused field.
 
@@ -197,10 +197,10 @@ You can also use the shortcuts or context-menu as described in [3.1.3](#313-cont
 ### 3.4 Choose own credential fields for a page
 
 Sometimes there are other input fields between the username field and the password field.<br />
-In this cases chromeIPass cannot detect the correct combination of username + password fields.
+In this cases KeePassHTTP-Connector cannot detect the correct combination of username + password fields.
 
 But you can define the combination by yourself for every page.<br />
-Just click on the browser-icon of chromeIPass and press "Choose own credential fields for this page":<br />
+Just click on the browser-icon of KeePassHTTP-Connector and press "Choose own credential fields for this page":<br />
 [<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-normal.png" alt="popup-normal" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-normal.png)
 
 First there are all normal textfields highlighted. Click on the field you want to use as username field or skip this step if no username field is required.
@@ -211,21 +211,21 @@ Now choose a password field and in the last step confirm your selection.
 
 You can also choose additional fields, the so-called _String Fields_. Their functionality is described in [section 3.7](#37-fill-in-additional-values-via-string-fields).
 
-The next time you open this page chromeIPass will use the defined combination of username + password field and does no longer auto detect combinations.
+The next time you open this page KeePassHTTP-Connector will use the defined combination of username + password field and does no longer auto detect combinations.
 
 Certainly you can focus another field and use the context-menu ([3.1.3](#313-context-menu)) or shortcuts ([3.1.4](#314-shortcuts)) to start the detection for the focused field.
 
 
 ### 3.5 Remember passwords
 
-Because Google Chrome does not offer an API for their built-in password manager chromeIPass implements it own way of detecting new or updated credentials.
+Because Google Chrome does not offer an API for their built-in password manager KeePassHTTP-Connector implements it own way of detecting new or updated credentials.
 
 If chromeIPass finds a combination of username + password fields it tries to get the corresponding form for them.<br />
 For this form it registers a submit event which is called when the form is send.
 
 __There are known limitations for this workflow which are described in [Limitations and known problems](#7-limitations-and-known-problems).__
 
-If chromeIPass detects unsaved credentials the browser icon of chromeIPass starts blinking red.<br />
+If KeePassHTTP-Connector detects unsaved credentials the browser icon of KeePassHTTP-Connector starts blinking red.<br />
 The icon will remain blinking till you click on it or you ignore it for 2 further page visits (loading other sites).
 
 If you click on it, it remains completely red till you add, update or dismiss the detected changes.<br />
@@ -266,11 +266,11 @@ Dropdown elements are filled in by the visible value. If you open a dropdown ele
 
 ## 4. Configuration and settings
 
-You don't need to configure chromeIPass.<br />
-If chromeIPass does not have an authenticated connection to KeePassHttp it displays a red cross in the browser icon and requests you to establish a new connection.<br />
+You don't need to configure KeePassHTTP-Connector.<br />
+If KeePassHTTP-Connector does not have an authenticated connection to KeePassHttp it displays a red cross in the browser icon and requests you to establish a new connection.<br />
 [<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-connect.png" alt="popup-connect" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-connect.png)
 
-For further configurations you can open the settings which are accessible via the settings button in the popups, the context-menu of the browser icon (entry is called _Options_) or the tab _chrome://extensions_ on the chromeIPass-entry there is also a link called _Options_.
+For further configurations you can open the settings which are accessible via the settings button in the popups, the context-menu of the browser icon (entry is called _Options_) or the tab _chrome://extensions_ on the KeePassHTTP-Connector entry there is also a link called _Options_.
 
 ### 4.1 Settings: General
 
@@ -282,11 +282,11 @@ The changes are saved immediately.
 
 ### 4.2 Settings: Connected Databases
 
-On the tab _Connected Databases_ chromeIPass shows you which databases are currently paired with KeePassHttp. You can also define a special icon for every database and see when it was last accessed.
+On the tab _Connected Databases_ KeePassHTTP-Connector shows you which databases are currently paired with KeePassHttp. You can also define a special icon for every database and see when it was last accessed.
 
 The displayed icon depends on the database which is currently activated and unlocked in KeePass.
 
-Removing an entry from chromeIPass __does not__ remove the key from KeePassHttp! But KeePassHttp is no longer able to send credentials to or receive data from chromeIPass for the currently activated database in KeePass.
+Removing an entry from KeePassHTTP-Connector __does not__ remove the key from KeePassHttp! But KeePassHttp is no longer able to send credentials to or receive data from chromeIPass for the currently activated database in KeePass.
 
 [<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-settings-connected-databases.png" alt="settings general" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-settings-connected-databases.png)
 
@@ -303,9 +303,9 @@ You can only remove them because it's not useful to define the fields manually.
 
 If the credential fields are not detected automatically you can focus one of the fields and press __Ctrl+Shift+U__ or __Ctrl+Shift+P__ to trigger redetecting the fields and filling-in the credentials. Also you can click on the browser icon and press the button _Redetect credential fields_.
 
-If chromeIPass detects wrong credential fields choose them by yourself with the button _Choose own credential fields for this page_ which is available in every popup.
+If KeePassHTTP-Connector detects wrong credential fields choose them by yourself with the button _Choose own credential fields for this page_ which is available in every popup.
 
-If chomeIPass always asks to unlock the database and this is annoying you, you can simply disable this feature in the [options of KeePassHttp](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options).
+If KeePassHTTP-Connector always asks to unlock the database and this is annoying you, you can simply disable this feature in the [options of KeePassHttp](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options).
 
 __It's always a good idea to have a look into the options of KeePassHttp. Maybe your feature request or problem is still implemented and can be solved by changing the options.__
 [Go to the illustrated readme for the KeePassHttp options](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options)
@@ -321,26 +321,26 @@ Open the [options of KeePassHttp](https://github.com/pfn/keepasshttp#settings-in
 
 ## 6. Important information
 
-- because Google Chrome does not offer an API to communicate with the built-in password manager chromeIPass needs to implement its own kind of password manager. [Please read the known limitations which belongs to that](#7-limitations-and-known-problems).
+- because Google Chrome does not offer an API to communicate with the built-in password manager KeePassHTTP-Connector needs to implement its own kind of password manager. [Please read the known limitations which belongs to that](#7-limitations-and-known-problems).
 
-- for security reasons chromeIPass wipes out the temporarily stored credentials from cache every time you switch the tabs. Therefor it requests credentials for the current tab every time you switch on it.
+- for security reasons KeePassHTTP-Connector wipes out the temporarily stored credentials from cache every time you switch the tabs. Therefor it requests credentials for the current tab every time you switch on it.
 
 ## 7. Limitations and known problems
 
 ### 7.1 Remember credentials
 
-Google Chrome does not offer an API to communicate with the password manager. Therefor chromeIPass implements its own way of checking for changed credentials.
+Google Chrome does not offer an API to communicate with the password manager. Therefore KeePassHTTP-Connector implements its own way of checking for changed credentials.
 
-On the form in which a combination of username + password fields is detected, chromeIPass registers an event which will be called when the form is submitted.
+On the form in which a combination of username + password fields is detected, KeePassHTTP-Connector registers an event which will be called when the form is submitted.
 
 This event checks whether the submitted username and password have changed and shows the remember dialog.
 
 But there exist several problems which we currently cannot overcome and which lead to not recognize the changes:
 
-1. If the password field is cleared by some JavaScript code which hashes the value for example, chromeIPass can no longer access the value of the password and therefore no remember dialog is shown.
+1. If the password field is cleared by some JavaScript code which hashes the value for example, KeePassHTTP-Connector can no longer access the value of the password and therefore no remember dialog is shown.
 2. If there are page internal submit events registered on the form which will be triggered before our submit-request (for example: ajax calls), our request is possibly not triggered and no remember dialog will be shown.
 
-Another problem is that chromeIPass cannot clearly differentiate between a successful and failed login attempt.<br />
+Another problem is that KeePassHTTP-Connector cannot clearly differentiate between a successful and failed login attempt.<br />
 The remember dialog will also be shown for failed login attempts.
 
 ### 7.2 Auto detection of input fields
@@ -351,10 +351,10 @@ It is only one time called automatically: After loading of the page finished.
 
 New input fields which are created with JavaScript or with an AJAX-call cannot be detected, because they get visible __after__ the auto detection was called.
 
-For example an overlay for signin or signup could possibly not auto detected by chromeIPass because either the input fields are created just-in-time or they are hidden to the user while auto detection is running.
+For example an overlay for signin or signup could possibly not auto detected by KeePassHTTP-Connector because either the input fields are created just-in-time or they are hidden to the user while auto detection is running.
 
 #### 7.2.2 Solution
-When it did not detect any username + password field combination you can click on the browser icon of chromeIPass and press the button "Redetect credential fields".
+When it did not detect any username + password field combination you can click on the browser icon of KeePassHTTP-Connector and press the button "Redetect credential fields".
 
 You can also focus the visible username field or password field and press __Ctrl+Shift+U__. This will start a redetection for the focused field, too.
 
@@ -365,7 +365,7 @@ __Second:__ Did you checked your [KeePassHttp options](https://github.com/pfn/ke
 
 If you [open an issue](https://github.com/pfn/passifox/issues/) always give us at least the following information:
 
-1. chromeIPass version
+1. KeePassHTTP-Connector version
 2. Google Chrome version
 2. KeePassHttp version
 3. KeePass version
@@ -378,13 +378,13 @@ If you [open an issue](https://github.com/pfn/passifox/issues/) always give us a
 
 If this does not solve your problem, please [open an issue](https://github.com/pfn/passifox/issues/).
 
-### 8.2 chromeIPass stopped working
+### 8.2 KeePassHTTP-Connector stopped working
 
 #### 8.2.1 First check the running versions of your software
 
-1. Check if you are using the [latest version of chromeIPass](https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae).
+1. Check if you are using the [latest version of KeePassHTTP-Connector](https://chrome.google.com/webstore/detail/keepasshttp-connector/dafgdjggglmmknipkhngniifhplpcldb).
 2. Check if your browser Google chrome is up-to-date
-3. Check if your versions of [KeePassXC](https://keepassxc.org/) OR ([KeePassHttp](https://github.com/pfn/keepasshttp) + [KeePass](http://www.keepass.info)) are up-to-date
+3. Check if your versions of [KeePassXC](https://keepassxc.org/) OR ([KeePassHttp](https://github.com/pfn/keepasshttp) + [KeePass](https://www.keepass.info)) are up-to-date
 
 #### 8.2.2 Check the background page console for error messages
 1. Open a tab with URL _chrome://extensions_ and activate the _Developer mode_ to be able to generate the background page:<br />
@@ -395,7 +395,7 @@ If this does not solve your problem, please [open an issue](https://github.com/p
 
 #### 8.2.3 Check the inline page console for error messages
 
-In the page on which chromeIPass stopped working please press _F12_ or do a right-click and choose _Inspect Element_ from the context-menu. Now choose the tab _Console_ to open the console for the inline scripts:
+In the page on which KeePassHTTP-Connector stopped working please press _F12_ or do a right-click and choose _Inspect Element_ from the context-menu. Now choose the tab _Console_ to open the console for the inline scripts:
 
 [<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-console-inline.png" alt="inline page console" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-console-inline.png)
 
@@ -405,7 +405,7 @@ In the page on which chromeIPass stopped working please press _F12_ or do a righ
 - the messages are crypted with a key of the length of 256bit.
 - the communication happens via http://localhost on port 19455 on which KeePassHttp is listening.
 
-The system is only in the moment of connecting a database to chromeIPass vulnerable. At this point KeePassHttp has to transmit the key to chromeIPass which will store it in the secured space of the extension. If someone records this traffic it could be possible to extract the key from it.
+The system is only in the moment of connecting a database to KeePassHTTP-Connector vulnerable. At this point KeePassHttp has to transmit the key to KeePassHTTP-Connector which will store it in the secured space of the extension. If someone records this traffic it could be possible to extract the key from it.
 
 Any further communication is encrypted with this key and no longer vulnerable!
 
