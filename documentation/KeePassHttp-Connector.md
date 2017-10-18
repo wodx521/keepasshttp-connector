@@ -77,17 +77,19 @@ It is recommended to disable the built-in Chrome password management when using 
 1. Your database in KeePass has to be unlocked.
 2. Install the extension.
   - For Chrome, the KeePassHTTP-Connector extension is available in the [Chrome Web Store](https://chrome.google.com/webstore/detail/keepasshttp-connector/dafgdjggglmmknipkhngniifhplpcldb).
+  - For Firefox, the KeePassHTTP-Connector extension is available in the [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/keepasshttp-connector/).
+
 3. Now there is a new browser icon available:<br />
-![browser-icon](https://raw.github.com/pfn/passifox/master/documentation/images/cip-browser-icon.png)
+![browser-icon](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-browser-icon.png)
 
 4. Click on the icon and press the button to connect to KeePassHttp:<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-connect.png" alt="popup-connect" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-connect.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-connect.png" alt="popup-connect" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-connect.png)
 
 5. KeePassHttp shows you an dialog to give the pairing request a name. You could call it "Chrome on my main computer".<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/keepass-association-key.png" alt="keepass-association-key" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/keepass-association-key.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/keepass-association-key.png" alt="keepass-association-key" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/keepass-association-key.png)
 
 6. If you click on the browser icon again it should show you the following information:<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-normal.png" alt="popup-normal" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-normal.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-normal.png" alt="popup-normal" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-normal.png)
 
 7. Reload the current page.
 8. Open the settings to adjust KeePassHTTP-Connector for your needs.
@@ -106,7 +108,7 @@ Clicking on the icon opens a popup on which you can choose the credentials which
 
 If there are several username + password combinations on the page the credentials are filled into the focused combination (focus on username or password field) or into the first combination.
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-choose-credentials.png" alt="popup choose credentials" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-choose-credentials.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-choose-credentials.png" alt="popup choose credentials" width="300px" />](https://raw.github.com/smorks/passifox/master/documentation/images/cip-popup-choose-credentials.png)
 
 
 #### 3.1.2 Autocomplete
@@ -117,7 +119,7 @@ By clicking on an entry of the list or when the username field loose the focus i
 
 This feature is activated by default and can be disabled on the settings page of KeePassHTTP-Connector.
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-autocomplete.png" alt="autocomplete" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-autocomplete.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-autocomplete.png" alt="autocomplete" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-autocomplete.png)
 
 #### 3.1.3 Context-menu
 
@@ -133,11 +135,11 @@ __Fill Pass Only__ does work either KeePassHTTP-Connector received only one pair
 
 __Show Password Generator Icons__ restarts the detection of _visible_ password fields on the page and adds the key-icon for the password generator to each of them.
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-context-menu.png" alt="context-menu" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-context-menu.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-context-menu.png" alt="context-menu" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-context-menu.png)
 
 #### 3.1.4 Shortcuts
 
-chromeIPass supports 2 page-wide shortcuts:
+KeePassHTTP-Connector supports 2 page-wide shortcuts:
 
 __Ctrl+Shift+U__ is the shortcut for __Fill User + Pass__ of the context-menu which is described in [3.1.3](#313-context-menu).
 
@@ -152,7 +154,7 @@ This function has to be enabled on the settings-page of KeePassHTTP-Connector.
 This feature is only available with the KeePassHttp v1.4 or higher.
 
 If it is enabled every password field contains a key icon on the right side. Click on it to open the password generator:<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-password-generator.png" alt="password-generator" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-password-generator.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-password-generator.png" alt="password-generator" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-password-generator.png)
 
 If the key-icon does not appear, right-click on the input-field and select _KeePassHTTP-Connector > Show Password Generator icons_ in the context-menu.
 
@@ -170,7 +172,7 @@ __Because KeePassHTTP-Connector has some [limitations](#7-limitations-and-known-
 KeePassHTTP-Connector sends a request to KeePass which generates a password with the settings of the built-in profile for auto-generated passwords.<br />
 To change the length and composition of generated passwords, please open the KeePass Password Generation Options.<br />
 Go to Keepass > Tools > Generate Password... and this dialog opens:<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/keepass-password-generation-options.png" alt="keepass-password-generation-options" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/keepass-password-generation-options.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/keepass-password-generation-options.png" alt="keepass-password-generation-options" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/keepass-password-generation-options.png)
 
 1. Select the built-in profile _(Automatically generated passwords for new entries)_ and change the composition of the generated passwords.
 2. Now click the _save_ button
@@ -201,13 +203,13 @@ In this cases KeePassHTTP-Connector cannot detect the correct combination of use
 
 But you can define the combination by yourself for every page.<br />
 Just click on the browser-icon of KeePassHTTP-Connector and press "Choose own credential fields for this page":<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-normal.png" alt="popup-normal" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-normal.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-normal.png" alt="popup-normal" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-normal.png)
 
 First there are all normal textfields highlighted. Click on the field you want to use as username field or skip this step if no username field is required.
 
 Now choose a password field and in the last step confirm your selection.
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-choose-credential-fields.png" alt="popup-normal" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-choose-credential-fields.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-choose-credential-fields.png" alt="popup-normal" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-choose-credential-fields.png)
 
 You can also choose additional fields, the so-called _String Fields_. Their functionality is described in [section 3.7](#37-fill-in-additional-values-via-string-fields).
 
@@ -220,7 +222,7 @@ Certainly you can focus another field and use the context-menu ([3.1.3](#313-con
 
 Because Google Chrome does not offer an API for their built-in password manager KeePassHTTP-Connector implements it own way of detecting new or updated credentials.
 
-If chromeIPass finds a combination of username + password fields it tries to get the corresponding form for them.<br />
+If KeePassHTTP-Connector finds a combination of username + password fields it tries to get the corresponding form for them.<br />
 For this form it registers a submit event which is called when the form is send.
 
 __There are known limitations for this workflow which are described in [Limitations and known problems](#7-limitations-and-known-problems).__
@@ -231,24 +233,24 @@ The icon will remain blinking till you click on it or you ignore it for 2 furthe
 If you click on it, it remains completely red till you add, update or dismiss the detected changes.<br />
 It shows you the corresponding URL and username and the database in which the changes will be saved.
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-remember.png" alt="popup-normal" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-remember.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-remember.png" alt="popup-normal" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-remember.png)
 
 If you have multiple credentials for a page and want to update one entry you can press _Update_.<br />
 Now a list of all available entries appears on which you can select the outdated entry. If the username matchs with one username of the available credentials this entry will be marked bold:
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-remember-update.png" alt="popup-normal" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-remember-update.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-remember-update.png" alt="popup-normal" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-remember-update.png)
 
 New entries are stored in a separate group in KeePass which will be added by KeePassHttp.
 
 ### 3.6 Auto fill-in for HTTP Auth requests
 
-KeePassHttp returns the found credentials sorted by best matching URL to chromeIPass.<br />
-chromeIPass can try to automatically login with the first provided credentials on HTTP Auth requests.<br />
+KeePassHttp returns the found credentials sorted by best matching URL to KeePassHTTP-Connector.<br />
+KeePassHTTP-Connector can try to automatically login with the first provided credentials on HTTP Auth requests.<br />
 If this login attempt fails the login dialog is shown as normal.
 
 The dialog of an HTTP Auth request is shown in the following screenshot:
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/http-auth-request.png" alt="http auth request" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/http-auth-request.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/http-auth-request.png" alt="http auth request" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/http-auth-request.png)
 
 This feature is activated by default and can be disabled in settings.
 
@@ -259,7 +261,7 @@ You can fill-in additional information by defining string fields.
 1. Choose your own credential fields for the page like explained in [section 3.4](#34-choose-own-credential-fields-for-a-page). You can also skip both, username and password.
 2. Now you can choose additional fields which are named _String Fields_. You can even choose dropdown elements.
 The order you choose these string fields is important for the fill-in method!
-3. Activate the _String Fields_ setting in KeePassHttp like explained in the [KeePassHttp-documentation (setting no. 11)](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options).
+3. Activate the _String Fields_ setting in KeePassHttp like explained in the [KeePassHttp-documentation (setting no. 11)](https://github.com/smorks/keepasshttp#settings-in-keepasshttp-options).
 The alphanumeric ordered entries are mapped with the order you chose the String Fields.
 
 Dropdown elements are filled in by the visible value. If you open a dropdown element you can see all available values. This visible value has to match with one String Field value from KeePass.
@@ -268,7 +270,7 @@ Dropdown elements are filled in by the visible value. If you open a dropdown ele
 
 You don't need to configure KeePassHTTP-Connector.<br />
 If KeePassHTTP-Connector does not have an authenticated connection to KeePassHttp it displays a red cross in the browser icon and requests you to establish a new connection.<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-connect.png" alt="popup-connect" width="200px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-popup-connect.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-connect.png" alt="popup-connect" width="200px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-popup-connect.png)
 
 For further configurations you can open the settings which are accessible via the settings button in the popups, the context-menu of the browser icon (entry is called _Options_) or the tab _chrome://extensions_ on the KeePassHTTP-Connector entry there is also a link called _Options_.
 
@@ -278,7 +280,7 @@ On the _General Settings_ you can enable and disable key features like autocompl
 
 The changes are saved immediately.
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-settings-general.png" alt="settings general" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-settings-general.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-settings-general.png" alt="settings general" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-settings-general.png)
 
 ### 4.2 Settings: Connected Databases
 
@@ -286,9 +288,9 @@ On the tab _Connected Databases_ KeePassHTTP-Connector shows you which databases
 
 The displayed icon depends on the database which is currently activated and unlocked in KeePass.
 
-Removing an entry from KeePassHTTP-Connector __does not__ remove the key from KeePassHttp! But KeePassHttp is no longer able to send credentials to or receive data from chromeIPass for the currently activated database in KeePass.
+Removing an entry from KeePassHTTP-Connector __does not__ remove the key from KeePassHttp! But KeePassHttp is no longer able to send credentials to or receive data from KeePassHTTP-Connector for the currently activated database in KeePass.
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-settings-connected-databases.png" alt="settings general" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-settings-connected-databases.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-settings-connected-databases.png" alt="settings general" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-settings-connected-databases.png)
 
 
 ### 4.3 Settings: Specified credential fields
@@ -297,7 +299,7 @@ In [section 3.4](#34-choose-own-credential-fields-for-a-page) the function of _C
 All credential fields which are defined with this function are listed on this tab.<br />
 You can only remove them because it's not useful to define the fields manually.
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-settings-specified-credential-fields.png" alt="settings general" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-settings-specified-credential-fields.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-settings-specified-credential-fields.png" alt="settings general" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-settings-specified-credential-fields.png)
 
 ## 5. Tips and tricks
 
@@ -305,19 +307,19 @@ If the credential fields are not detected automatically you can focus one of the
 
 If KeePassHTTP-Connector detects wrong credential fields choose them by yourself with the button _Choose own credential fields for this page_ which is available in every popup.
 
-If KeePassHTTP-Connector always asks to unlock the database and this is annoying you, you can simply disable this feature in the [options of KeePassHttp](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options).
+If KeePassHTTP-Connector always asks to unlock the database and this is annoying you, you can simply disable this feature in the [options of KeePassHttp](https://github.com/smorks/keepasshttp#settings-in-keepasshttp-options).
 
 __It's always a good idea to have a look into the options of KeePassHttp. Maybe your feature request or problem is still implemented and can be solved by changing the options.__
-[Go to the illustrated readme for the KeePassHttp options](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options)
+[Go to the illustrated readme for the KeePassHttp options](https://github.com/smorks/keepasshttp#settings-in-keepasshttp-options)
 
 #### Support multiple URLs for one username + password combination
-This is natively supported by KeePass with the references feature. You can find an illustrated description in the [readme of KeePassHttp](https://github.com/pfn/keepasshttp#support-multiple-urls-for-one-username--password).
+This is natively supported by KeePass with the references feature. You can find an illustrated description in the [readme of KeePassHttp](https://github.com/smorks/keepasshttp#support-multiple-urls-for-one-username--password).
 
 #### Disable the system tray notifications for found entries
-Open the [options of KeePassHttp](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options) and disable the first feature.
+Open the [options of KeePassHttp](https://github.com/smorks/keepasshttp#settings-in-keepasshttp-options) and disable the first feature.
 
-#### Change the sort order of entries chromeIPass is displaying
-Open the [options of KeePassHttp](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options) and switch the fifth feature.
+#### Change the sort order of entries KeePassHTTP-Connector is displaying
+Open the [options of KeePassHttp](https://github.com/smorks/keepasshttp#settings-in-keepasshttp-options) and switch the fifth feature.
 
 ## 6. Important information
 
@@ -361,12 +363,12 @@ You can also focus the visible username field or password field and press __Ctrl
 ## 8. Troubleshooting
 
 __First:__ Did you read the section [5. Tips and tricks](#5-tips-and-tricks)?
-__Second:__ Did you checked your [KeePassHttp options](https://github.com/pfn/keepasshttp#settings-in-keepasshttp-options)? Maybe you only have to change the options...
+__Second:__ Did you checked your [KeePassHttp options](https://github.com/smorks/keepasshttp#settings-in-keepasshttp-options)? Maybe you only have to change the options...
 
-If you [open an issue](https://github.com/pfn/passifox/issues/) always give us at least the following information:
+If you [open an issue](https://github.com/smorks/keepasshttp-connector/issues/) always give us at least the following information:
 
 1. KeePassHTTP-Connector version
-2. Google Chrome version
+2. Google Chrome or Firefox version
 2. KeePassHttp version
 3. KeePass version
 4. Pages on which the error occur
@@ -376,28 +378,28 @@ If you [open an issue](https://github.com/pfn/passifox/issues/) always give us a
 1. Search in KeePass for the URL of the page on which the wrong credentials are filled-in.
 2. Check the found entries for the credentials and confirm that the entries are up-to-date.
 
-If this does not solve your problem, please [open an issue](https://github.com/pfn/passifox/issues/).
+If this does not solve your problem, please [open an issue](https://github.com/smorks/keepasshttp-connector/issues/).
 
 ### 8.2 KeePassHTTP-Connector stopped working
 
 #### 8.2.1 First check the running versions of your software
 
-1. Check if you are using the [latest version of KeePassHTTP-Connector](https://chrome.google.com/webstore/detail/keepasshttp-connector/dafgdjggglmmknipkhngniifhplpcldb).
-2. Check if your browser Google chrome is up-to-date
+1. Check if you are using the [latest version of KeePassHTTP-Connector for Chrome](https://chrome.google.com/webstore/detail/keepasshttp-connector/dafgdjggglmmknipkhngniifhplpcldb) or the [latest version of KeePassHTTP-Connector for Firefox](https://addons.mozilla.org/en-US/firefox/addon/keepasshttp-connector/).
+2. Check if your browser Google Chrome or Firefox is up-to-date
 3. Check if your versions of [KeePassXC](https://keepassxc.org/) OR ([KeePassHttp](https://github.com/pfn/keepasshttp) + [KeePass](https://www.keepass.info)) are up-to-date
 
 #### 8.2.2 Check the background page console for error messages
 1. Open a tab with URL _chrome://extensions_ and activate the _Developer mode_ to be able to generate the background page:<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-extensions-developer-mode.png" alt="extensions developer mode" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-extensions-developer-mode.png)
+[<img src="https://raw.github.com/https://github.com/smorks/keepasshttp-connector/master/documentation/images/cip-extensions-developer-mode.png" alt="extensions developer mode" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-extensions-developer-mode.png)
 
 2. In the opened window choose the tab _Console_:<br />
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-console-background.png" alt="background page console" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-console-background.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-console-background.png" alt="background page console" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-console-background.png)
 
 #### 8.2.3 Check the inline page console for error messages
 
 In the page on which KeePassHTTP-Connector stopped working please press _F12_ or do a right-click and choose _Inspect Element_ from the context-menu. Now choose the tab _Console_ to open the console for the inline scripts:
 
-[<img src="https://raw.github.com/pfn/passifox/master/documentation/images/cip-console-inline.png" alt="inline page console" width="300px" />](https://raw.github.com/pfn/passifox/master/documentation/images/cip-console-inline.png)
+[<img src="https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-console-inline.png" alt="inline page console" width="300px" />](https://raw.github.com/smorks/keepasshttp-connector/master/documentation/images/cip-console-inline.png)
 
 ## 9. Security
 
@@ -411,4 +413,4 @@ Any further communication is encrypted with this key and no longer vulnerable!
 
 ## Information
 
-This readme was created by Lukas Schulze and last updated in April 2013.
+This readme was created by Lukas Schulze and last updated in October 2017 by Paul Tansom.
