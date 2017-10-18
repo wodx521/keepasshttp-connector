@@ -83,7 +83,7 @@ if (browser.webRequest.onAuthRequired) {
 	var reqType = 'blocking';
 	var opts = { urls: ['<all_urls>'] };
 
-	if (utils.isFirefox) {
+	if (!utils.isFirefox) {
 		handleReq = httpAuth.handleRequestCallback;
 		reqType = 'asyncBlocking';
 	}
