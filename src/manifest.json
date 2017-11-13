@@ -46,6 +46,9 @@
 				"http://*/*",
 				"https://*/*"
 			],
+			"exclude_matches": [
+				"*://*/*.xml"
+			],
 			"js": [
 				"browser-polyfill.min.js",
 				"jquery-1.11.1.min.js",
