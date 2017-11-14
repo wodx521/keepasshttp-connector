@@ -1,4 +1,4 @@
-var $ = cIPJQ.noConflict(true);
+var $ = jQuery.noConflict(true);
 
 function updateAvailableResponse(available) {
 	if(available) {

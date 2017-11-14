@@ -1,5 +1,5 @@
-if(cIPJQ) {
-	var $ = cIPJQ.noConflict(true);
+if(jQuery) {
+	var $ = jQuery.noConflict(true);
 }
 
 $(function() {

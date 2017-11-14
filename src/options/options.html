@@ -5,9 +5,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="../bootstrap-btn.css" />
-		<link href="bootstrap-responsive.min.css" rel="stylesheet" />
+		<link href="bootstrap-theme.min.css" rel="stylesheet" />
 		<script type="text/javascript" src="../browser-polyfill.min.js"></script>
-		<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="../jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="bootstrap.min.js"></script>
 		<script type="text/javascript" src="options.js"></script>
 		<style type="text/css">
@@ -25,35 +25,6 @@
 				margin: 30px 0;
 			}
 
-			/* Customize the navbar links to be fill the entire space of the .navbar */
-			.navbar .navbar-inner {
-				padding: 0;
-				margin-bottom: 40px;
-			}
-			.navbar .nav {
-				margin: 0;
-				display: table;
-				width: 100%;
-			}
-			.navbar .nav li {
-				display: table-cell;
-				width: 1%;
-				float: none;
-			}
-			.navbar .nav li a {
-				font-weight: bold;
-				text-align: center;
-				border-left: 1px solid rgba(255,255,255,.75);
-				border-right: 1px solid rgba(0,0,0,.1);
-			}
-			.navbar .nav li:first-child a {
-				border-left: 0;
-				border-radius: 3px 0 0 3px;
-			}
-			.navbar .nav li:last-child a {
-				border-right: 0;
-				border-radius: 0 3px 3px 0;
-			}
 			.tab {
 				display: none;
 			}
@@ -108,7 +79,7 @@
 				<div class="navbar">
 					<div class="navbar-inner">
 						<div class="container">
-							<ul class="nav">
+							<ul class="nav nav-pills nav-justified">
 								<li class="active"><a href="#general-settings">General</a></li>
 								<li><a href="#connected-databases">Connected Databases</a></li>
 								<li><a href="#specified-fields">Specified credential fields</a></li>

@@ -1,3 +1,6 @@
+
+var cIPJQ = jQuery.noConflict(true);
+
 // contains already called method names
 var _called = {};
 
