@@ -6,9 +6,6 @@
 	font-family: Verdana, Arial, sans-serif !important;
 	color: #222222 !important;
 }
-.kphc .ui-dialog-titlebar-close {
-	visibility: hidden !important;
-}
 .kphc .widget-overlay {
 	background: none !important;
 	z-index: 2147483601 !important;
