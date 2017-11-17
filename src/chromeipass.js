@@ -79,13 +79,21 @@ var cipAutocomplete = {};
 cipAutocomplete.elements = [];
 
 cipAutocomplete.init = function(field) {
-	if(field.hasClass("cip-ui-autocomplete-input")) {
+	if(field.hasClass("ui-autocomplete-input")) {
 		//_f(credentialInputs[i].username).autocomplete("source", autocompleteSource);
 		field.autocomplete("destroy");
 	}
 
+	// create container div if it doesn't already exist
+	var acmenu = cIPJQ('#kphc-ac-menu');
+	if (acmenu.length == 0) {
+		cIPJQ('<div id="kphc-ac-menu" class="kphc"></div>').appendTo('body');
+	}
+
 	field
+		.addClass('kphc')
 		.autocomplete({
+			appendTo: '#kphc-ac-menu',
 			minLength: 0,
 			source: cipAutocomplete.onSource,
 			select: cipAutocomplete.onSelect,
@@ -103,8 +111,8 @@ cipAutocomplete.onClick = function() {
 
 cipAutocomplete.onOpen = function(event, ui) {
 	// NOT BEAUTIFUL!
-	// modifies ALL ui-autocomplete menus of class .cip-ui-menu
-	cIPJQ("ul.cip-ui-autocomplete.cip-ui-menu").css("z-index", 2147483636);
+	// modifies ALL ui-autocomplete menus of class .ui-menu
+	cIPJQ("ul.ui-autocomplete.ui-menu").css("z-index", 2147483636);
 }
 
 cipAutocomplete.onSource = function (request, callback) {
@@ -309,9 +317,13 @@ cipPassword.createDialog = function() {
 		});
 	$dialog.append($btnFillIn);
 
-	$dialog.hide();
-	cIPJQ("body").append($dialog);
+	var $container = cIPJQ('#kphc-pw-dialog');
+	if ($container.length == 0) {
+		cIPJQ('<div id="kphc-pw-dialog" class="kphc"></div>').appendTo('body');
+	}
+
 	$dialog.dialog({
+		appendTo: '#kphc-pw-dialog',
 		closeText: "×",
 		autoOpen: false,
 		modal: true,
@@ -319,7 +331,7 @@ cipPassword.createDialog = function() {
 		minWidth: 340,
 		title: "Password Generator",
 		open: function(event, ui) {
-			cIPJQ(".cip-ui-widget-overlay").click(function() {
+			cIPJQ(".ui-widget-overlay").click(function() {
 				cIPJQ("#cip-genpw-dialog:first").dialog("close");
 			});
 
@@ -357,7 +369,9 @@ cipPassword.createIcon = function(field) {
 	}
 	$zIndex += 1;
 
-	var $icon = cIPJQ("<div>").addClass("cip-genpw-icon")
+	var $icon = cIPJQ("<div>")
+		.addClass('kphc')
+		.addClass("cip-genpw-icon")
 		.addClass($className)
 		.css("z-index", $zIndex)
 		.data("size", $size)
@@ -1698,7 +1712,7 @@ cipEvents.clearCredentials = function() {
 		for(var i = 0; i < cipFields.combinations.length; i++) {
 			var uField = _f(cipFields.combinations[i].username);
 			if(uField) {
-				if(uField.hasClass("cip-ui-autocomplete-input")) {
+				if(uField.hasClass("ui-autocomplete-input")) {
 					uField.autocomplete("destroy");
 				}
 			}

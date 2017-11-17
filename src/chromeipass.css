@@ -1,4 +1,4 @@
-.cip-ui-autocomplete li.cip-ui-menu-item {
+.kphc .ui-autocomplete li.ui-menu-item {
 	text-align: left !important;
 	font-size: 12px !important;
 	font-weight: normal !important;
@@ -6,23 +6,23 @@
 	font-family: Verdana, Arial, sans-serif !important;
 	color: #222222 !important;
 }
-.cip-ui-dialog-titlebar-close {
+.kphc .ui-dialog-titlebar-close {
 	visibility: hidden !important;
 }
-.cip-ui-widget-overlay {
+.kphc .widget-overlay {
 	background: none !important;
 	z-index: 2147483601 !important;
 }
-.cip-ui-dialog {
+.kphc .ui-dialog {
 	z-index: 2147483602 !important;
 }
-.cip-ui-dialog .cip-ui-dialog-title {
+.kphc .ui-dialog .ui-dialog-title {
 	font-size:.9em !important;
 }
-.cip-ui-dialog .cip-ui-dialog-titlebar {
+.kphc .ui-dialog .ui-dialog-titlebar {
 	padding:.1em .5em !important;
 }
-.cip-ui-dialog-content {
+.kphc .ui-dialog-content {
 	font-size: .9em !important;
 }
 
