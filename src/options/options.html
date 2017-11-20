@@ -331,18 +331,22 @@
 				<div style="text-align: right">
 					<button id="connect-button" class="b2c-btn b2c-btn-primary">Connect</button>
 					</div>
-				<div id="dialogDeleteConnectedDatabase" class="modal hide" tabindex="-1" role="dialog">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="myModalLabel">Remove identifier from Chrome?</h3>
-					</div>
-					<div class="modal-body">
-						<p>Do you really want to remove the identifier <span class="bold"></span> from Chrome?</p>
-						<p class="help-block">You can reconnect your database at any time.</p>
-					</div>
-					<div class="modal-footer">
-						<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-						<button class="btn yes btn-primary">Yes, remove now</button>
+				<div id="dialogDeleteConnectedDatabase" class="modal" style="display:none;" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h3 id="myModalLabel">Remove identifier from Chrome?</h3>
+							</div>
+							<div class="modal-body">
+								<p>Do you really want to remove the identifier <span class="bold"></span> from Chrome?</p>
+								<p class="help-block">You can reconnect your database at any time.</p>
+							</div>
+							<div class="modal-footer">
+								<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+								<button class="btn yes btn-primary">Yes, remove now</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -375,18 +379,22 @@
 						</tr>
 					</tbody>
 				</table>
-				<div id="dialogDeleteSpecifiedCredentialFields" class="modal hide" tabindex="-1" role="dialog">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="myModalLabel">Remove specified credential fields?</h3>
-					</div>
-					<div class="modal-body">
-						<p>Do you really want to remove the specified credential fields on the page <strong></strong>?</p>
-						<p class="help-block">KeePassHttp-Connector will automatically detect the credential fields the next time you visit this page.</p>
-					</div>
-					<div class="modal-footer">
-						<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-						<button class="btn yes btn-primary">Yes, remove now</button>
+				<div id="dialogDeleteSpecifiedCredentialFields" class="modal" style="display:none;" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h3 id="myModalLabel">Remove specified credential fields?</h3>
+							</div>
+							<div class="modal-body">
+								<p>Do you really want to remove the specified credential fields on the page <strong></strong>?</p>
+								<p class="help-block">KeePassHttp-Connector will automatically detect the credential fields the next time you visit this page.</p>
+							</div>
+							<div class="modal-footer">
+								<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+								<button class="btn yes btn-primary">Yes, remove now</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
