@@ -1,11 +1,11 @@
 var httpAuth = httpAuth || {};
 
-httpAuth.requests = [];
+httpAuth.requests = {};
 
 httpAuth.requestCompleted = function (details) {
-	var index = httpAuth.requests.indexOf(details.requestId);
-	if (index > -1) {
-		httpAuth.requests.splice(index, 1);
+	var req = httpAuth.requests[details.requestId];
+	if (req) {
+		delete httpAuth.requests[details.requestId];
 	}
 }
 
@@ -21,11 +21,16 @@ httpAuth.handleRequestCallback = function (details, callback) {
 
 httpAuth.processPendingCallbacks = function (details, resolve, reject) {
 
-	if (httpAuth.requests.indexOf(details.requestId) >= 0 || !page.tabs[details.tabId]) {
+	if (!page.tabs[details.tabId]) {
 		reject({});
+		return;
 	}
 
-	httpAuth.requests.push(details.requestId);
+	var creds = httpAuth.requests[details.requestId];
+	if (creds) {
+		httpAuth.loginOrShowCredentials(creds, details, resolve, reject);
+		return;
+	}
 
 	if (details.challenger) {
 		details.proxyUrl = details.challenger.host;
@@ -43,12 +48,13 @@ httpAuth.loginOrShowCredentials = function (logins, details, resolve, reject) {
 	if (logins.length > 0) {
 		cipevent.onHTTPAuthPopup(null, { "id": details.tabId }, { "logins": logins, "url": details.searchUrl });
 		//generate popup-list for HTTP Auth usernames + descriptions
-
 		if (page.settings.autoFillAndSend) {
+			var creds = logins.shift();
+			httpAuth.requests[details.requestId] = logins;
 			resolve({
 				authCredentials: {
-					username: logins[0].Login,
-					password: logins[0].Password
+					username: creds.Login,
+					password: creds.Password
 				}
 			});
 		} else {
