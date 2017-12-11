@@ -8,8 +8,8 @@ page.blockedTabs = {};
 
 page.initSettings = function() {
 	return new Promise((resolve, reject) => {
-		cipevent.onLoadSettings((settings) => {
-			page.settings = settings;
+		browser.storage.local.get({'settings': {}}).then((item) => {
+			page.settings = item.settings;
 			if(!("checkUpdateKeePassHttp" in page.settings)) {
 				page.settings.checkUpdateKeePassHttp = 3;
 			}
@@ -35,7 +35,7 @@ page.initSettings = function() {
 				page.settings.port = "19455";
 			}
 			browser.storage.local.set({'settings': page.settings});
-			resolve();
+			resolve(page.settings);
 		});
 	});
 }

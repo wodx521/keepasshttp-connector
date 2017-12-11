@@ -3,6 +3,7 @@ keepass.migrateKeyRing().then(() => {
 	// load settings
 	page.initSettings().then(() => {
 		page.initOpenedTabs().then(() => {
+			httpAuth.init();
 			// initial connection with KeePassHttp
 			keepass.getDatabaseHash({ id: page.currentTabId });
 		});
@@ -71,27 +72,6 @@ browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		cipevent.invoke(browserAction.removeRememberPopup, null, tabId, []);
 	}
 });
-
-
-/**
- * Retrieve Credentials and try auto-login for HTTPAuth requests
- *
- * (Intercepting HTTP auth currently unsupported in Firefox.)
- */
-if (browser.webRequest.onAuthRequired) {
-	var handleReq = httpAuth.handleRequestPromise;
-	var reqType = 'blocking';
-	var opts = { urls: ['<all_urls>'] };
-
-	if (!utils.isFirefox) {
-		handleReq = httpAuth.handleRequestCallback;
-		reqType = 'asyncBlocking';
-	}
-
-	browser.webRequest.onAuthRequired.addListener(handleReq, opts, [reqType]);
-	browser.webRequest.onCompleted.addListener(httpAuth.requestCompleted, opts);
-	browser.webRequest.onErrorOccurred.addListener(httpAuth.requestCompleted, opts);
-}
 
 /**
  * Interaction between background-script and front-script

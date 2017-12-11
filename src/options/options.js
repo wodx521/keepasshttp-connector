@@ -25,6 +25,18 @@ options.saveSettings = function() {
 	});
 };
 
+options.saveSettingsPromise = function() {
+	return new Promise((resolve, reject) => {
+		browser.storage.local.set({'settings': options.settings}).then((item) => {
+			browser.runtime.sendMessage({
+				action: 'load_settings'
+			}).then((settings) => {
+				resolve(settings);
+			});
+		});
+	});
+}
+
 options.saveKeyRing = function() {
 	browser.storage.local.set({'keyRing': options.keyRing});
 	browser.runtime.sendMessage({
@@ -50,8 +62,13 @@ options.initGeneralSettings = function() {
 	});
 
 	$("#tab-general-settings input[type=checkbox]").change(function() {
-		options.settings[$(this).attr("name")] = $(this).is(':checked');
-		options.saveSettings();
+		var name = $(this).attr('name');
+		options.settings[name] = $(this).is(':checked');
+		options.saveSettingsPromise().then((x) => {
+			if (name === 'autoFillAndSend') {
+				browser.runtime.sendMessage({action: 'init_http_auth'});
+			}
+		});
 	});
 
 	$("#tab-general-settings input[type=radio]").each(function() {

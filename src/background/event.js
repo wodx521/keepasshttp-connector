@@ -82,8 +82,8 @@ cipevent.onShowAlert = function(callback, tab, message) {
 }
 
 cipevent.onLoadSettings = function(callback, tab) {
-	browser.storage.local.get({'settings': {}}).then((item) => {
-		callback(item.settings);
+	page.initSettings().then((settings) => {
+		callback(settings);
 	}, (err) => {
 		console.log('error loading settings: ' + err);
 	});
@@ -224,6 +224,11 @@ cipevent.isFirefox = function(callback) {
 	callback(utils.isFirefox);
 }
 
+cipevent.initHttpAuth = function(callback) {
+	httpAuth.init();
+	callback();
+}
+
 // all methods named in this object have to be declared BEFORE this!
 cipevent.messageHandlers = {
 	'add_credentials': keepass.addCredentials,
@@ -234,6 +239,7 @@ cipevent.messageHandlers = {
 	'get_keepasshttp_versions': cipevent.onGetKeePassHttpVersions,
 	'get_status': cipevent.onGetStatus,
 	'get_tab_information': cipevent.onGetTabInformation,
+	'init_http_auth': cipevent.initHttpAuth,
 	'load_keyring': cipevent.onLoadKeyRing,
 	'load_settings': cipevent.onLoadSettings,
 	'page_clear_logins': cipevent.pageClearLogins,
