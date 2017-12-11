@@ -1,6 +1,6 @@
 {
 	"name": "KeePassHttp-Connector",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"manifest_version": 2,
 	"description": "KeePass integration for browsers using KeePassHttp",
 	"icons": {
