@@ -6,6 +6,12 @@ They require [KeePassHttp](https://github.com/pfn/keepasshttp/), a KeePass plugi
 
 It was forked from [chromeIPass/passIFox](https://github.com/pfn/passifox), with support for newer versions of Firefox (42+).
 
+## Beta Testers Wanted!
+
+I am looking for beta testers who use KeePass (not KeePassXC) and want to try out the next iteration of KeePassHttp. [KeePassNatMsg](https://github.com/smorks/keepassnatmsg) is a re-write of KeePassHttp using native messaging for web browsers. It currently works great with the [keepassxc-browser](https://github.com/varjolintu/keepassxc-browser) browser extension, which fixes some of the issues that KeePassHttp-Connector currently has.
+
+If you are interested, head over to the [KeePassNatMsg](https://github.com/smorks/keepassnatmsg) page for downloads & installation instructions, and please report any issues there. Thank-you!
+
 ## Downloads
 
 - Mozilla Firefox - [Add-on](https://addons.mozilla.org/en-US/firefox/addon/keepasshttp-connector/)
