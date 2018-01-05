@@ -69,8 +69,8 @@
 		"fill-username-password": {
 			"description": "Insert username + password",
 			"suggested_key": {
-				"default": "Ctrl+Shift+U",
-				"mac": "Command+Shift+U"
+				"default": "Alt+Shift+U",
+				"mac": "Alt+Shift+U"
 			}
 		},
 		"fill-password": {
