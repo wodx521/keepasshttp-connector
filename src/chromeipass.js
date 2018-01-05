@@ -4,6 +4,9 @@ var cIPJQ = jQuery.noConflict(true);
 // contains already called method names
 var _called = {};
 
+// Count of detected form fields on the page
+var _detectedFields = 0;
+
 browser.runtime.onMessage.addListener(function(req, sender, callback) {
 	if ('action' in req) {
 		if(req.action == "fill_user_pass_with_specific_login") {
@@ -843,6 +846,8 @@ cipFields.getAllFields = function() {
 		}
 	});
 
+	_detectedFields = fields.length;
+
 	return fields;
 }
 
@@ -1135,6 +1140,20 @@ cip.submitUrl = null;
 // received credentials from KeePassHTTP
 cip.credentials = [];
 
+cip.detectNewActiveFields = function() {
+	const divDetect = setInterval(function() {
+		if (document.visibilityState !== 'hidden') {
+			const fields = cipFields.getAllFields();
+
+			// If only password field is shown it's enough to have one field visible for initCredentialFields
+			if (fields.length > (_detectedFields == 1 ? 0 : 1)) {
+				cip.initCredentialFields(true);
+				clearInterval(divDetect);
+			}
+		}
+	}, 1000);
+};
+
 cip.init = function() {
 	browser.runtime.sendMessage({
 		"action": "load_settings",
@@ -1274,9 +1293,17 @@ cip.preparePageForMultipleCredentials = function(credentials) {
 
 	// initialize autocomplete for username fields
 	if(cip.settings.autoCompleteUsernames) {
-		for(var i = 0; i < cipFields.combinations.length; i++) {
-			if(_f(cipFields.combinations[i].username)) {
-				cipAutocomplete.init(_f(cipFields.combinations[i].username));
+		for (const combo of cipFields.combinations) {
+			// Both username and password fields are visible
+			if (_detectedFields >= 2) {
+				if (_f(combo.username)) {
+					cipAutocomplete.init(_f(combo.username));
+				}
+			} else if (_detectedFields == 1) {
+				// If only password field is the visible one
+				if (_f(combo.password)) {
+					cipAutocomplete.init(_f(combo.password));
+				}
 			}
 		}
 	}
@@ -1700,6 +1727,7 @@ cip.rememberCredentials = function(usernameValue, passwordValue) {
 
 cIPJQ(function() {
 	cip.init();
+	cip.detectNewActiveFields();
 });
 
 var cipEvents = {};
