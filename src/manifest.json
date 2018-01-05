@@ -47,7 +47,8 @@
 				"https://*/*"
 			],
 			"exclude_matches": [
-				"*://*/*.xml"
+				"*://*/*.xml",
+				"*://*/*.xsd"
 			],
 			"js": [
 				"browser-polyfill.min.js",
