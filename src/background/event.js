@@ -77,7 +77,7 @@ cipevent.invoke = function(handler, callback, senderTabId, args, secondTime) {
 }
 
 cipevent.onShowAlert = function(callback, tab, message) {
-	if( page.settings.supressAlerts ){ console.log(message); }
+	if( page.settings.supressAlerts === true ){ console.log(message); }
 	else { browser.tabs.executeScript({code: 'alert(\''+message+'\')'}); }
 }
 

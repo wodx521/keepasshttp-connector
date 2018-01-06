@@ -14,25 +14,31 @@ page.initSettings = function() {
 				page.settings.checkUpdateKeePassHttp = 3;
 			}
 			if(!("autoCompleteUsernames" in page.settings)) {
-				page.settings.autoCompleteUsernames = 1;
+				page.settings.autoCompleteUsernames = true;
 			}
 			if(!("autoFillAndSend" in page.settings)) {
-				page.settings.autoFillAndSend = 1;
+				page.settings.autoFillAndSend = true;
 			}
 			if(!("usePasswordGenerator" in page.settings)) {
-				page.settings.usePasswordGenerator = 1;
+				page.settings.usePasswordGenerator = true;
 			}
 			if(!("autoFillSingleEntry" in page.settings)) {
-				page.settings.autoFillSingleEntry = 1;
+				page.settings.autoFillSingleEntry = false;
 			}
 			if(!("autoRetrieveCredentials" in page.settings)) {
-				page.settings.autoRetrieveCredentials = 1;
+				page.settings.autoRetrieveCredentials = true;
 			}
 			if(!("hostname" in page.settings)) {
 				page.settings.hostname = "localhost";
 			}
 			if(!("port" in page.settings)) {
 				page.settings.port = "19455";
+			}
+			if(!("supressAlerts" in page.settings)) {
+				page.settings.supressAlerts = true;
+			}
+			if(!("respectMaxLength" in page.settings)) {
+				page.settings.respectMaxLength = false;
 			}
 			browser.storage.local.set({'settings': page.settings});
 			resolve(page.settings);

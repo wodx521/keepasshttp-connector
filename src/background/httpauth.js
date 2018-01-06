@@ -19,7 +19,7 @@ httpAuth.init = function() {
 	}
 
 	// only intercept http auth requests if the option is turned on.
-	if (page.settings.autoFillAndSend) {
+	if (page.settings.autoFillAndSend === true) {
 		var opts = { urls: ['<all_urls>'] };
 
 		browser.webRequest.onAuthRequired.addListener(handleReq, opts, [reqType]);
@@ -67,7 +67,7 @@ httpAuth.processPendingCallbacks = function (details, resolve, reject) {
 
 httpAuth.loginOrShowCredentials = function (logins, details, resolve, reject) {
 	// at least one login found --> use first to login
-	if (logins.length > 0 && page.settings.autoFillAndSend) {
+	if (logins.length > 0 && page.settings.autoFillAndSend === true) {
 		if (logins.length == 1) {
 			resolve({
 				authCredentials: {

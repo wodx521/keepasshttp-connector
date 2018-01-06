@@ -1034,7 +1034,7 @@ cipFields.getPasswordField = function(usernameId, checkDisabled) {
 			passwordField = null;
 		}
 
-		if(cip.settings.usePasswordGenerator) {
+		if(cip.settings.usePasswordGenerator === true) {
 			cipPassword.init();
 			cipPassword.initField(passwordField);
 		}
@@ -1190,7 +1190,7 @@ cip.initCredentialFields = function(forceCall) {
 		cip.url = document.location.origin;
 		cip.submitUrl = cip.getFormActionUrl(cipFields.combinations[0]);
 
-		if(cip.settings.autoRetrieveCredentials) {
+		if(cip.settings.autoRetrieveCredentials === true) {
 			browser.runtime.sendMessage({
 				'action': 'retrieve_credentials',
 				'args': [ cip.url, cip.submitUrl ]
@@ -1200,7 +1200,7 @@ cip.initCredentialFields = function(forceCall) {
 } // end function init
 
 cip.initPasswordGenerator = function(inputs) {
-	if(cip.settings.usePasswordGenerator) {
+	if(cip.settings.usePasswordGenerator === true) {
 		cipPassword.init();
 
 		for(var i = 0; i < inputs.length; i++) {
@@ -1234,7 +1234,7 @@ cip.retrieveCredentialsCallback = function (credentials, dontAutoFillIn) {
 
 cip.prepareFieldsForCredentials = function(autoFillInForSingle) {
 	// only one login for this site
-	if (autoFillInForSingle && cip.settings.autoFillSingleEntry && cip.credentials.length == 1) {
+	if (autoFillInForSingle && cip.settings.autoFillSingleEntry === true && cip.credentials.length == 1) {
 		var combination = null;
 		if(!cip.p && !cip.u && cipFields.combinations.length > 0) {
 			cip.u = _f(cipFields.combinations[0].username);
@@ -1264,7 +1264,7 @@ cip.prepareFieldsForCredentials = function(autoFillInForSingle) {
 		});
 	}
 	//multiple logins for this site
-	else if (cip.credentials.length > 1 || (cip.credentials.length > 0 && (!cip.settings.autoFillSingleEntry || !autoFillInForSingle))) {
+	else if (cip.credentials.length > 1 || (cip.credentials.length > 0 && (!(cip.settings.autoFillSingleEntry === true) || !autoFillInForSingle))) {
 		cip.preparePageForMultipleCredentials(cip.credentials);
 	}
 }
@@ -1292,7 +1292,7 @@ cip.preparePageForMultipleCredentials = function(credentials) {
 	});
 
 	// initialize autocomplete for username fields
-	if(cip.settings.autoCompleteUsernames) {
+	if(cip.settings.autoCompleteUsernames === true) {
 		for (const combo of cipFields.combinations) {
 			// Both username and password fields are visible
 			if (_detectedFields >= 2) {
@@ -1736,7 +1736,7 @@ cipEvents.clearCredentials = function() {
 	cip.credentials = [];
 	cipAutocomplete.elements = [];
 
-	if(cip.settings.autoCompleteUsernames) {
+	if(cip.settings.autoCompleteUsernames === true) {
 		for(var i = 0; i < cipFields.combinations.length; i++) {
 			var uField = _f(cipFields.combinations[i].username);
 			if(uField) {
@@ -1754,7 +1754,7 @@ cipEvents.triggerActivatedTab = function() {
 
 	// initCredentialFields calls also "retrieve_credentials", to prevent it
 	// check of init() was already called
-	if(_called.initCredentialFields && (cip.url || cip.submitUrl) && cip.settings.autoRetrieveCredentials) {
+	if(_called.initCredentialFields && (cip.url || cip.submitUrl) && cip.settings.autoRetrieveCredentials === true) {
 		browser.runtime.sendMessage({
 			'action': 'retrieve_credentials',
 			'args': [ cip.url, cip.submitUrl ]
