@@ -2,7 +2,7 @@ var httpAuth = httpAuth || {};
 
 httpAuth.requests = [];
 
-httpAuth.init = function() {
+httpAuth.init = function () {
 
 	var handleReq = httpAuth.handleRequestPromise;
 	var reqType = 'blocking';
@@ -45,6 +45,14 @@ httpAuth.handleRequestCallback = function (details, callback) {
 	httpAuth.processPendingCallbacks(details, callback, callback);
 }
 
+httpAuth.retrieveCredentials = function (tabId, url, submitUrl, forceCallback) {
+	return new Promise((resolve, reject) => {
+		keepass.retrieveCredentials((logins) => {
+			resolve(logins);
+		}, tabId, url, submitUrl, forceCallback);
+	});
+};
+
 httpAuth.processPendingCallbacks = function (details, resolve, reject) {
 
 	if (httpAuth.requests.indexOf(details.requestId) >= 0 || !page.tabs[details.tabId]) {
@@ -60,9 +68,10 @@ httpAuth.processPendingCallbacks = function (details, resolve, reject) {
 
 	details.searchUrl = (details.isProxy && details.proxyUrl) ? details.proxyUrl : details.url;
 
-	keepass.retrieveCredentials((logins) => {
-		httpAuth.loginOrShowCredentials(logins, details, resolve, reject);
-	}, { "id": details.tabId }, details.searchUrl, details.searchUrl, true);
+	httpAuth.retrieveCredentials({ "id": details.tabId }, details.searchUrl, details.searchUrl, true)
+		.then((logins) => {
+			httpAuth.loginOrShowCredentials(logins, details, resolve, reject);
+		});
 }
 
 httpAuth.loginOrShowCredentials = function (logins, details, resolve, reject) {
